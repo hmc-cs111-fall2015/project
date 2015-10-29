@@ -47,7 +47,7 @@ Also for debugging purposes, if a user doesn't actually generate a map, there wi
 
 Here's a sample block of code:
 
-'''
+```
 #includes go here
 
 debugging = True
@@ -80,7 +80,7 @@ map {
 generate map as FILENAME
 generate debug map as FILENAME
 
-'''
+```
 
 This will:
 *make the tiles the program will use
