@@ -83,7 +83,7 @@ generate debug map as FILENAME
 ```
 
 This will:
-*make the tiles the program will use
-*make the layers, 0 with just water, 1 with a chunk of ground, and 2 with the freeform tiles
-*generate a map that'll be saved as FILENAME in the current directory
-*generate a debug map, as debugging is on
+* make the tiles the program will use
+* make the layers, 0 with just water, 1 with a chunk of ground, and 2 with the freeform tiles
+* generate a map that'll be saved as FILENAME in the current directory
+* generate a debug map, as debugging is on
