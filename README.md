@@ -205,18 +205,15 @@ and to convey how you plan to design, implement, and evaluate your DSL.
 Place your **project description** in the file `documents/description.md`. It
 should address the following issues.
 
-Motivation
-  : Why is this project useful or interesting, what problem are you trying to
+**Motivation:** Why is this project useful or interesting, what problem are you trying to
     address, and why is a DSL an appropriate solution?
 
-Language domain
-  : What is the domain that this language addresses, and why is the domain useful? 
+**Language domain:** What is the domain that this language addresses, and why is the domain useful? 
     Who will benefit from this language? Are there any other DSLs for this 
     domain? If so, what are they, and how might they influence your language
     design and implementation?
 
-Language design
-  : If you had to capture your DSL's *design* in one sentence, what would it be?
+**Language design:** If you had to capture your DSL's *design* in one sentence, what would it be?
     What constitutes a program in your language? What happens when a program
     runs? What kinds of input might a program take, and what kinds of output
     might it produce? Are there data or control structures that you know will be
@@ -225,13 +222,10 @@ Language design
     design your language to prevent such errors or to clearly communicate the
     results of errors to the user?
 
-~ Begin Aside
-You can describe the computations in the `description.md` file, or put them in 
+_Note:_ You can describe the computations in the `description.md` file, or put them in 
 separate files. Just be clear about where they are and what they mean.
-~ End Aside
 
-Example computations
-  : Describe some example computations in your DSL. These computations should
+**Example computations:** Describe some example computations in your DSL. These computations should
     describe what happens when a specific program in your DSL executes. Note
     that you *shouldn't* describe the syntax of the program. Rather you should
     describe some canonical examples that help someone else understand the kinds
@@ -240,20 +234,17 @@ Example computations
 Place your **project plan** in the file `documents/plan.md`. It should 
 answer the following questions.
 
-Language evaluation
-  : How will you know that your language has accomplished its goals? What
+**Language evaluation:** How will you know that your language has accomplished its goals? What
     tools, techniques, or measurements will you use to evaluate your language
     *design*? What tools or practices will you use to ensure that your language
     *implementation* is of high quality?
 
-Implementation plan
-  : How much time do you think you'll need for the various components of your language 
+**Implementation plan:** How much time do you think you'll need for the various components of your language 
     (e.g., finding a host language, implementing the semantics, the parser, 
     tools, etc)? Provide a brief schedule (e.g., with a deliverable every week) 
     for your project.
 
-Teamwork plan
-  : If you are working in a team, how do you plan to
+**Teamwork plan:** If you are working in a team, how do you plan to
     divide the labor? *Note: Each team member must work on every aspect
     of the project, including design, implementation, evaluation, and
     documentation.*
