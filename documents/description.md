@@ -69,7 +69,7 @@ map {
 		fill water1
 	}
 	layer 1 = {
-		from (0,250) to (250,750) fill ground1 with border on (right, bottom)
+		from (0,250) to (250,750) fill ground1 with border (right, bottom)
 	}
 	layer 2 = {
 		at (250,250) place peninsula
