@@ -40,30 +40,40 @@ At each checkpoint: fill in notebook entries, add documentation as necessary.
 ###11/8/15:
 
 >Have a fully-formed grammar, AST, and an understanding of how the host IP library will use the AST
+
 >Work on design_and_implementation.md, integrating feedback.
+
 >Have scala files set up, work on implementation for the simplest map: read in a single tile, output a map of that tile's size made of just that tile.
 
 ###11/15/15:
 
 >Finish implementation for the simple map, add layers and ``fill`` for just a single layer.
+
 >Add in freeform tiles and placement.
+
 >At this point, potentially have outside user test for how intuitive it is to use.
 Have some sort of prototype ready by Monday.
 
 ###11/22/15:
 
 >Work on ``fill`` for specified areas, potentially add in borders and/or the non-right-angle areas for tiling.
+
 >Definitely have outside user test the code.
+
 >Work on evaluation.md at the end.
 
 ###12/6/15: 
 
 >Finish any implementation, add in extras if there's time.
+
 >Make sure all documentation is complete and understandable.
+
 >Have another round of testing done.
+
 >Have the demo ready for Monday.
 
 ###12/11/15:
 
 >Finalize testing.
+
 >Work on final.md.
