@@ -47,7 +47,7 @@ Also for debugging purposes, if a user doesn't actually generate a map, there wi
 
 Here's a sample block of code:
 
-'''
+```
 #includes go here
 
 debugging = True
@@ -69,7 +69,7 @@ map {
 		fill water1
 	}
 	layer 1 = {
-		from (0,250) to (250,750) fill ground1 with border on (right, bottom)
+		from (0,250) to (250,750) fill ground1 with border (right, bottom)
 	}
 	layer 2 = {
 		at (250,250) place peninsula
@@ -80,10 +80,10 @@ map {
 generate map as FILENAME
 generate debug map as FILENAME
 
-'''
+```
 
 This will:
-*make the tiles the program will use
-*make the layers, 0 with just water, 1 with a chunk of ground, and 2 with the freeform tiles
-*generate a map that'll be saved as FILENAME in the current directory
-*generate a debug map, as debugging is on
+* make the tiles the program will use
+* make the layers, 0 with just water, 1 with a chunk of ground, and 2 with the freeform tiles
+* generate a map that'll be saved as FILENAME in the current directory
+* generate a debug map, as debugging is on
