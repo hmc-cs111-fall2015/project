@@ -84,6 +84,13 @@ I think these warnings and errors can sensibly be reported on the command line.
 
 ## Example computations
 
+Computations in Codeviz are pretty homogeneous: parse the Codeviz comments
+and control flow keywords into an abstract syntax for a flowchart,
+then use a mapping from the flowchart abstract syntax to a flowchart creation API
+to generate the flowchart. The file parsing step might involve
+parsing the underlying language into some abstract syntax,
+and then mapping this syntax to the flowchart abstract syntax.
+
 [code2flow]: http://code2flow.com/
 [Codeviz]: https://github.com/JustisAllen/Codeviz
 [Flowgen]: http://jlopezvi.github.io/Flowgen/index.html
