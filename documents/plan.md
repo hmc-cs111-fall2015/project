@@ -14,6 +14,9 @@ Hindley-Milner at the very least.
 
 ## Implementation plan
 
+Next week, I would like to have something clear enough that my
+critique partner's job will not be so hard. :)
+
 I would like to be able to build some kind of unit calculator up-and-running
 in the next two weeks.
 I would do this using either Haskell, which I think I know how to do,
