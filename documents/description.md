@@ -1,4 +1,6 @@
-#### Motivation
+# Project description and plan
+
+## Motivation
 
 Coffee drinks are difficult to make. In the world of the ever-present hipster, it's getting harder and harder to get it just right. In a world where customers actually order a "split-shot, heavy on decaf, 20 oz, soy, extra dry latte, with half pump vanilla & half-pump hazlenut", keeping track of all the modifications to make for a coffee drink is a difficult experience even for a physical barista. On the other hand, automatic coffee machines have a finite amount of settings that a customer can customize, so are not as customizable as ordering from a live barista. 
 
@@ -6,13 +8,13 @@ If there was a standard language by which a customer could specify a drink to an
 
 We need a DSL for this because we want to enable users to specify their drinks to arbitrary levels of precision. There are so many factors that go into a caffeinated or alcoholic beverage that we need a language (rather than, for instance, an enumerated type), because there are just so many possibilities.
 
-#### Language domain
+## Language domain
 
 This language addresses the domain of automated coffee drink specification. The domain is useful because it seems to me like automated drink machines will never be able to attain the quality of a human barista or bartended until you can specify your drinks as much as you want. 
 
 I don't believe there are any other DSLs in this domain. The closest thing I could find while searching for similar languages was [this](https://en.wikipedia.org/wiki/Hyper_Text_Coffee_Pot_Control_Protocol). 
 
-#### Language design
+## Language design
 
 A program in the language is going to look like a list of instructions to execute, in order. We require the language to be imperative instead of declarative because it makes a difference the order in which ingredients are added to what the final product will look/taste like. Thus, we should allow the user to control the order in which things happen. For instance, most baristas add shots of coffee to the milk in a latte, and not the other way around. When a program runs, depending on the backend attached to the language, you could get as a result:
 
@@ -23,7 +25,7 @@ A program in the language is going to look like a list of instructions to execut
 
 I'm not sure what kinds of control structures/data structures might be useful yet, except for a mutable list in which to keep the steps to execute that come out of the parser. When I decide exactly what the syntax of a program will look like, anything that doesn't match that syntax will throw an error because the parser won't be able to parse it. As far as compile or runtime errors go, I think figuring out what these will be will happen organically as I start to write the language. One possible semantic error I thought of is trying to add 0 parts of something - though you deal with this by ignoring the instruction, for the sake of readable code it would probably be better to not allow the user to do that. 
 
-#### Example computations
+## Example computations
 
 Initially, I had thought that an program could look like this:
 ```

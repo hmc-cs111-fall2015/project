@@ -1,4 +1,6 @@
-#### Language evaluation
+# Project plan
+
+## Language evaluation
 
 I will evaluate my language design using a few measurables:
 
@@ -12,7 +14,7 @@ I will evaluate my language implementation using a different set of measurables:
 2. How well does the implementation adhere to the separation of concerns structure used in Piconot-external (with a separate Parser, IR, and Semantics)?
 3. How easy is it to switch out the backend for a different backend?
 
-#### Implementation plan
+## Implementation plan
 
 I think most of my time in the early part of the project will be spent working with the parser and intermediate representation of the data. The backend could vary from being very easy (if we just have the version that prints the instructions being executed) to fairly challenging, depending on how many and which of the possible backends I end up implementing. I'd like to dedicate the "rest" of the semester, once I'm satisfied with the frontend and IR, to working on the backend. This'll probably be about 2-3 weeks of work, total.
 
@@ -25,6 +27,6 @@ A preliminary schedule I've made for myself looks as follows (due dates for proj
 - Dec 6th: At least 2 possible backends done. Last week should be for polishing, comments, etc.
 - Dec 11th: Final project done. 
 
-#### Teamwork plan
+## Teamwork plan
 
 Not applicable; I'm working on my own.
