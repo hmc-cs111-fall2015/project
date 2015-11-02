@@ -10,7 +10,7 @@ but the norm for documentation is text-based, which isn't always
 the best or most accessible way to express an idea;
 and there aren't many popular tools for making documentation that _is_ more accessible.
 
-_Codeviz_&mdash;short for "Code Visualizer"&mdash;addresses this problem
+[Codeviz]&mdash;short for "Code Visualizer"&mdash;addresses this problem
 by providing a language that makes it easier for programmers to create flowcharts
 that represent the control flow of their code,
 offering a more visually- and spatially-appealing representation of code:
@@ -19,7 +19,7 @@ but with flowcharts, these algorithms can be expressed in 2D.
 
 Not only would this solution help anyone (i.e., programmers and non-programmers alike)
 in understanding code, but it also reduces the effort necessary to produce 'good' documentation:
-a _Codeviz_ program shows up as syntax in an established GPL,
+a Codeviz program shows up as syntax in an existing programming language,
 so programmers don't have to venture too far from the code itself to generate the flowcharts.
 It's primarily for this reason, and the fact that programmers might not want
 every implementation detail to leak into the flowcharts&mdash;such that
@@ -31,6 +31,33 @@ because doing so is a sort of requirement of the language.
 
 ## Language domain
 
+Codeviz lives in the domain of code documentation and visualization,
+which is important for the reasons prescribed above.
+Documentation helps people understand the purpose or high level control flow of some code
+without necesarilly requiring knowledge of the underlying implementation;
+and visualization is sometimes a better medium than pure text documentation.
+
+[code2flow] is another language in the domain, and is designed to make flowchart creation easy
+by providing a C++/Java-esque interface for generating flowcharts.
+Though charming, this language does not suit my ideal well
+because it's not embedded in an existing language.
+
+[Flowgen] is much more aligned with my idea&mdash;it's on GitHub,
+and it's even associated with a [paper][Flowgen Paper]!
+Flowgen works for C++ and addresses the problem much as I intend to;
+however, the language is not entirely opt-in oriented
+and thus includes _every_ `if` statement (and `for` loop) in flowcharts,
+causing the C++'s syntax to leak into the flowchart
+when users do not provide a more human-readable description for the condition.
+To prevent this leaking, Codeviz _only_ includes user-specified descriptions
+in generated flowcharts, which has the beneficial side effect
+of further enforcing comment documentation.
+
 ## Language design
 
 ## Example computations
+
+[code2flow]: http://code2flow.com/
+[Codeviz]: https://github.com/JustisAllen/Codeviz
+[Flowgen]: http://jlopezvi.github.io/Flowgen/index.html
+[Flowgen Paper]: http://arxiv.org/pdf/1405.3240.pdf
