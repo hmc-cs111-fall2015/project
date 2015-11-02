@@ -55,6 +55,33 @@ of further enforcing comment documentation.
 
 ## Language design
 
+Codeviz illustrates the control flow of some code by means of a flowchart.
+A valid Codeviz program is a valid program in the underlying language
+with the additional trait that the program must include 'Codeviz comments'
+(i.e., the embedded, comment-based syntax). The runtime for the language compiles a file,
+parsing both Codeviz comments and control flow keywords in the underlying language,
+and then generates one or more flowcharts, where the user, potentially,
+specifies the names and destinations of each flowchart. Additionally,
+users can interact with the generated flowcharts: for instance,
+one of the components of the flowchart could represent a fairly complex helper function
+that could be clicked to reveal another flowchart
+that represents the helper function's algorithm.
+Abstract syntax trees will be helpful in both parsing the underlying language
+and maintaining a flowchart generation standard.
+
+One syntax error a user might encounter involves indicating a condition check
+before a statement that does not check a condition. Alternatively,
+a user would encounter a compile-time warning if the user indicates
+that an `if`-`else` block should be represented in the flowchart,
+but only adds Codeviz comments within _one_ of the `if` or `else` portion of the block.
+Albeit the flowchart would still be generated since it's completely appropriate
+for only one portion to contain Codeviz comments,
+the user should still be notified that one would _typically_ expect
+_both_ portions to contain Codeviz comments.
+Since, in this case, a valid flowchart could still be generated,
+users should be able to dismiss warnings so they do not (re)appear.
+I think these warnings and errors can sensibly be reported on the command line.
+
 ## Example computations
 
 [code2flow]: http://code2flow.com/
