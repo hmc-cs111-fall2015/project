@@ -107,7 +107,7 @@ class DielsAlderType(object):
         ...
 
 # myreaction.py
-import dielsAlder.py
+import dielsAlder
 from CAOS import react, load_molecule_from_file
 
 r1 = load_molecule_from_file('filename1.cml')
