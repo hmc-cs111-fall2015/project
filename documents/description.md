@@ -59,4 +59,46 @@ you shouldn't describe the syntax of the program. Rather you should describe
 some canonical examples that help someone else understand the kinds of things
 that your DSL will eventually be able to do._
 
+Here's a simple example that shows off some of what I'm hoping my DSL will do:
 
+```
+#include "my-robot-implementation.h"
+
+States Start, GoNorth, GoSouth, Confused;
+MyRobot bot;
+
+if (in Start) {
+    bot.move(0, 1);
+    if (bot.senseEast()) {
+        state = GoNorth;
+    } else if (timeInState() > 10) {
+        state = Confused;
+    }
+} else if (in GoNorth) {
+    bot.move(1, 0);
+    if (bot.senseNorth()) {
+        state = GoSouth;
+    } else if (timeInState() > 10) {
+        state = Confused;
+    }
+} else if (in GoSouth) {
+    bot.move(-1, 0);
+    if (bot.senseSouth()) {
+        state = GoNorth;
+    } else if (timeInState() > 10) {
+        state = Confused;
+    }
+} else if (in Confused) {
+    print("I'm confused! I got here from " + getPrevStates()[0]);
+    bot.ledOn;
+    wait(500ms);
+    bot.ledOff;
+    wait(500ms);
+}
+```
+
+As you can see, it's largely C++ but with some extra syntax and features thrown
+in by the DSL. Calls to the state machine can be made to change states and make
+queries (such as `timeInState` and `getPrevStates`). There's also other
+constructs such as `wait` which may create several shadow states (in this
+example, an led on state and an led of state).
