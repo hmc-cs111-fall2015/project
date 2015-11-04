@@ -17,3 +17,25 @@ Also, I like your implementation plan! I think error handling would be a good th
 the language a more polished feel.
 
 **end Zoab's comments**
+
+**start of Alex's comments**
+
+So I will take a different approach and just talk about your language.
+
+A lot of this language seems dependent on a system Mudd uses to track room availability. 
+Is there a current system that you are augmenting or is this brand new? If there is already
+a current system, then you already know what you need your backend to fit to, an API of sorts
+to work with the current system. As the expressibility of the backend is what really defines 
+what your language is able to do, my main question is **why aren't you working on the backend
+first?** With picobot, we worked on the middle part first because we already had a well defined 
+goal we wanted the backend to achieve. Since it doesn't seem like yours is completely ironed out,
+it might help define the language more to define what the backend will be doing. 
+
+For host language, I don't think you should really decide on that until you have a couple sketches 
+of what you think the language should look like. Picking a host language before doing sketches is 
+picking a method of writing the solution to a problem before having the solution. 
+
+I think your next steps should be more concretely define what you want the language to do and what
+system you are dealing with that stores all of the room/schedule information. As we said in class,
+the standard direction for a DSL is API -> Internal -> External, so it might be helpful to start 
+with the API. 
