@@ -47,7 +47,7 @@ and it's even associated with a [paper][Flowgen Paper]!
 Flowgen works for C++ and addresses the problem much as I intend to;
 however, the language is not entirely opt-in oriented
 and thus includes _every_ `if` statement (and `for` loop) in flowcharts,
-causing the C++'s syntax to leak into the flowchart
+causing C++'s syntax to leak into the flowchart
 when users do not provide a more human-readable description for the condition.
 To prevent this leaking, Codeviz _only_ includes user-specified descriptions
 in generated flowcharts, which has the beneficial side effect
