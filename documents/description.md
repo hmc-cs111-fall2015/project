@@ -28,10 +28,15 @@ I think I _shouldn't_ need any control flow structures and should only need the 
 
 Things that can go wrong:
 ... * Failure to specify necessary global vars (group size e.g.)
+
 ...... * This will need to be an error and ask the user
+
 ... * Contradictory constraints (John says he wants to work with Sally, John says he does not want to work with Sally)
+
 ...... * This could either be an error and ask the user, or just ignore the contradictory constraints
+
 ... * Group Size is larger than number of people input
+
 ...... * I'm tempted to say that I would just ignore this and return a group of all people submitted but I feel like this _must_ be a mistake so I think it would have to be an error and ask the user.
 
 ## Example computations
