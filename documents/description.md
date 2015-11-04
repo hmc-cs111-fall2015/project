@@ -30,7 +30,7 @@ Things that can go wrong:
 
     * Failure to specify necessary global vars (group size e.g.)
     
-      * This will need to be an error and ask the user
+       * This will need to be an error and ask the user
 
     * Contradictory constraints (John says he wants to work with Sally, John says he does not want to work with Sally)
 
@@ -39,5 +39,6 @@ Things that can go wrong:
     * Group Size is larger than number of people input
 
        * I'm tempted to say that I would just ignore this and return a group of all people submitted but I feel like this _must_ be a mistake so I think it would have to be an error and ask the user.
+       
+I think that these errors will be communicated as command-line errors when the program is run. I might be able to think of a better way later (and in the GUI, they'd be popup windows) but I'm yet to.
 
-## Example computations
