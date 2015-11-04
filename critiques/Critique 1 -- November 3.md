@@ -28,14 +28,21 @@ didn't specify what language(s) you want Codeviz to work with.  I think
 it would be cool if it worked with all* languages, but I realize that 
 is by no means practical.
 
-I clearly horribly miscounted my weeks when I planned mine out.  Depending
-on the language you implement this in, there may be useful existing libraries
-to generate graphs/flow charts in that language. I imagine [graphviz][2] or
-one of its many wrapper libraries would be of interest.
+I clearly horribly miscounted the number of weeks when I planned mine out. 
+
+Depending on the language you implement this in, there may be useful existing 
+libraries to generate graphs/flow charts in that language. I imagine [graphviz][2] 
+or one of its many wrapper libraries would be of interest.
 
 This plan seems pretty reasonable - do you have a plan for what you'll do if 
 you get bogged down in some details or get off track?  It seems like if you
 didn't complete anything after "4" you would have meet your baseline goals.
+
+After reading through your notebook I have some more questions/comments. It
+would seem that you're going to be using Java to implement your language - do
+you plan on making Java the first language you support?  Is your source code 
+going to have Codeviz enabled (please say yes - so meta)?  Is there any 
+particular reason you chose Java?
 
 
 
