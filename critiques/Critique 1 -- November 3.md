@@ -1,5 +1,7 @@
 # Critique: 3 November 2015
 
+Alex Ozdemir
+
 ## Response to Questions
 
 You mentioned that you were looking for feedback regarding the syntax of the
