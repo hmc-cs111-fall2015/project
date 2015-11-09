@@ -1,5 +1,6 @@
 # Project description and plan
 
+
 ## Motivation
 
 Trying to understand someone else's code&mdash;especially
@@ -29,6 +30,7 @@ Perhaps optimistically, the language will also compel programmers
 to write more high level, commented, and documented code
 because doing so is a sort of requirement of the language.
 
+
 ## Language domain
 
 Codeviz lives in the domain of code documentation and visualization,
@@ -52,6 +54,7 @@ when users do not provide a more human-readable description for the condition.
 To prevent this leaking, Codeviz _only_ includes user-specified descriptions
 in generated flowcharts, which has the beneficial side effect
 of further enforcing comment documentation.
+
 
 ## Language design
 
@@ -82,6 +85,7 @@ Since, in this case, a valid flowchart could still be generated,
 users should be able to dismiss warnings so they do not (re)appear.
 I think these warnings and errors can sensibly be reported on the command line.
 
+
 ## Example computations
 
 Computations in Codeviz are pretty homogeneous: parse the Codeviz comments
@@ -90,6 +94,7 @@ then use a mapping from the flowchart abstract syntax to a flowchart creation AP
 to generate the flowchart. The file parsing step might involve
 parsing the underlying language into some abstract syntax,
 and then mapping this syntax to the flowchart abstract syntax.
+
 
 [code2flow]: http://code2flow.com/
 [Codeviz]: https://github.com/JustisAllen/Codeviz
