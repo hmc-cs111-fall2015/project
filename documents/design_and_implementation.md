@@ -19,7 +19,7 @@ that represents the helper function's algorithm.
 For this first iteration, the computation process looks like this:
 
 1. Parse a Java file into an abstract syntax tree (AST) using [JavaParser]
-2. Parse this Java AST into an AST that represents a flowchart
+2. Translate this Java AST into an AST that represents a flowchart
 3. Generate a flowchart based on the flowchart AST
 
 ### Errors
@@ -59,8 +59,32 @@ of further enforcing comment documentation.
 
 ## Language implementation
 
+Codeviz is an external DSL whose syntax is embedded within a targetted language
+for the purpose of making the tool accessible and easy to use:
+programmers don't have to venture too far from the code itself to generate the flowcharts.
+I chose Java as the host language because I wanted to target Java
+as the first language that Codeviz supports&mdash;since the language is currently very popular,
+and I want to maximize impact. The best parser I found for parsing Java (JavaParser)
+is written in Java, so I figured I'd just use Java;
+however, I'm beginning to wonder if this is actually the best decision.
+After parsing a Java file, I need to translate the resulting AST into a flowchart AST
+that is later used to generate the flowchart.
+The current proposition for the flowchart abstract syntax uses an abstract class `Node`
+to represent each component of the flowchart.
+The initial concrete classes that extend `Node` are `Process` and `Decision`.
+The corresponding flowchart components of each of these instances of `Node` are different,
+so I need to know the particular 'type' of `Node` given at runtime
+to determine what flowchart component to render&mdash;I need dynamic typing.
+To get dynamic typing in imperative languages like Java and C++, I believe,
+one must apply the [Visitor pattern], which I'd like to avoid if I can.
+More functional languages like Scala and Haskell, on the other hand,
+have pattern matching which makes dealing with dynamic typing _much_ easier.
+Luckily, I believe Java packages can be used in Scala,
+so I might be switching my host language to Scala.
+
 
 [code2flow]: http://code2flow.com/
 [Flowgen]: http://jlopezvi.github.io/Flowgen/index.html
 [Flowgen Paper]: http://arxiv.org/pdf/1405.3240.pdf
 [JavaParser]: http://javaparser.github.io/javaparser/
+[Visitor pattern]: https://en.wikipedia.org/wiki/Visitor_pattern
