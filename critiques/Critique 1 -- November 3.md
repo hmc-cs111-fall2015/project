@@ -13,3 +13,5 @@ cost of performing the calculations to figure out if a function is applicable to
 a problem will far outweigh the cost of any dispatch system you have. Your
 method for specifying things seems very solid and I can't think of anything that
 would be better.
+
+-Adam Dunalp
