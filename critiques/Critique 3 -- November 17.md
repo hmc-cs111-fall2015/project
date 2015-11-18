@@ -69,7 +69,9 @@ Is there a way for users to safely use multithreading in their own state functio
 What about "every function is fast"?  How fast?  What happens if it isn't fast enough?
 
 In general I felt that this documentation could benefit greatly from expansion.
-> 
+
+
+- Dan Obermiller
 
 
 
