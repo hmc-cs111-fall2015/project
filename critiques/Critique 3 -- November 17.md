@@ -30,9 +30,9 @@ Then your identifiers can be "Node1", "Node2", ...
 As far as I understand Dot, you have to describe each Node, and then describe each
 connection between nodes. So Decision for example would end up being
 
-<MyID> [text=condition]
-<MyID> -> <IDofTrueBranch>
-<MyID> -> <IDofFalseBranch>
+    <MyID> [text=condition]
+    <MyID> -> <IDofTrueBranch>
+    <MyID> -> <IDofFalseBranch>
 
 completely regardless of what the children end up getting printed out as.
 So that means, each node can print itself out in GraphViz notation independently,
