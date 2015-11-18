@@ -1,7 +1,7 @@
 ### Critique for Nov 17th
 
 You asked me to look into the implementation and tell you what I think. After looking at the implementation, I had a few 
-observations:
+observations/questions:
 
 - It looks like you built off the same structure as the piconot-external homework assignment, which is good. Splitting up distinct
 parts of the language seems like a good thing.
