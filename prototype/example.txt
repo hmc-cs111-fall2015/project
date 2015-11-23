@@ -1,0 +1,114 @@
+// Each class represents a particular node of an AST.
+
+// Declaring classes is as easy as typing their names.
+Num
+    // Declaring fields is just as easy.
+    n
+
+// Here's another class.
+Add
+    // By using the @<group> directive, you can collect fields
+    // into a particular group.
+    // The @child group is a special one,
+    // by convention. It represents the parent-child relationship.
+    @child a, b
+
+
+// All classes are 'open'. That means you can add new fields whenever you like.
+Add
+    // print depends on the values of a and b.
+    // Fields are lazy by default.
+    // When the value of print is first asked for, it will be computed
+    // and then cached.
+    // This way, you can use fields as methods without regret -
+    // if you don't try to print, print won't be computed.
+    print = s"(${a.print} + ${b.print})"
+Num
+    // Shameless lifting of Scala's interpolation syntax.
+    // Probably won't actually implement it though.
+    print = s"$n"
+
+// Here we show computing values.
+// (Num is expecting a normal integer to go in n.)
+Add
+    value = a.value + b.value
+Num
+    value = n
+
+
+// So far we have an AST type that can represent numbers and addition.
+// It can compute the value of an expression, or print it out.
+
+// Now we add support for lambda functions and variables.
+App
+    @child func, arg
+Lam
+    @child var, body
+Var
+    name
+
+// Classes are REALLY open.
+// That is, you can essentially make them subclass other classes after-the-fact.
+// Here, Expr is defined as being a superclass of the ones we've seen so far.
+// An equivalent syntax going the other way would be
+//     Num : Expr
+//     Add : Expr
+//     App : Expr
+//     Lam : Expr
+Expr <- Num, Add, App, Lam
+
+// We subclassed so we could provide default functionality to all at once.
+Expr
+    // Instead of just building values out of the values of your children,
+    // you can also pass information down.
+    // The @child directive used here becomes a map over all members of the
+    // @child group.
+    // This ensures that every node has a scope inherited from its parent,
+    // by default.
+    @child.scope = scope
+
+    // This syntax is to declare a default value.
+    // Normally the value can only be set once (by a parent, for example), for safety.
+    // This syntax still only allows it to be set once, but
+    // if it hasn't been set it has a value still.
+    scope =?= {}
+Lam
+    // Now, this is really weird, and it's a cool trick that I owe
+    // 100% to JastAdd.
+    // Here we have a value that depends on itself.
+    // In this case, all it has to do is run once to update the value.
+    // But in general, this runs a closure algorithm,
+    // iteratively evaluating the update until the value doesn't change.
+    scope =o= scope.add(arg)
+
+// And, some rudimentary type checking.
+Num
+    type = int
+Add
+    type =
+        // You can make code blocks through indentation.
+        // The last value is the return, like Scala.
+
+        // This equality syntax is "unify". Like Prolog.
+        // You can use it for verification;
+        // here the unification will fail unless the two
+        // are equal.
+        // But if a.type is unknown, then it will be set
+        // to int.
+        // So this is a small amount of type inference.
+        a.type =:= int
+        b.type =:= int
+        int
+App
+    type =
+        (A -> B) =:= func.type
+        arg.type =:= A
+        B
+Lam
+    type = (arg.type -> body.type)
+
+
+
+
+
+
