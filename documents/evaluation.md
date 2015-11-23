@@ -1,5 +1,7 @@
 # Preliminary evaluation
 
+Hey, Justis, look at `prototype/example.txt`!
+
 _What works well? What are you particularly pleased with?_
 
 Technically, nothing works at all. That's because I spent so much time last week muddling through implementation,
@@ -18,7 +20,7 @@ For example, suppose you have a class with a default-valued field
 
     A
         name =?= "hello"
-  
+
 and you want to set it from a different class
 
     B
@@ -31,7 +33,7 @@ Another not-cohesive thing. I have two syntaxes for groups. Namely,
 
     A
         @child a, b
-  
+
 defines `a` and `b` as members of the `child` group in `A`.
 But, I also have a group syntax for classes,
 
