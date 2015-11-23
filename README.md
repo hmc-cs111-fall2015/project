@@ -1,6 +1,12 @@
 [notebook-fork]: https://github.com/hmc-cs111-fall2015/project-notebook/fork
 [CS111-projects]: https://github.com/hmc-cs111-fall2015/hmc-cs111-fall2015.github.io/wiki/Project-links
 
+
+# HELLO CRITIQUER
+
+You should look at `prototype/example.txt`.
+
+
 # DSL projects
 
 ## Overview
@@ -21,11 +27,11 @@ class can also provide guidance for designing / choosing a good project.
 ## Teamwork
 
 You may work either by yourself or with one other person. In some circumstances,
-you can work in larger teams, but talk to me first. Over time, I've discovered 
-that it's best if the collaboration is driven by shared interest in a specific 
+you can work in larger teams, but talk to me first. Over time, I've discovered
+that it's best if the collaboration is driven by shared interest in a specific
 project, rather than by a general desire to work together on something.
 
-Groups of projects will also act as teams. Each group will critique and provide 
+Groups of projects will also act as teams. Each group will critique and provide
 feedback for the other projects in the group. I'll assign these groups after
 everyone has settled on their project.
 
@@ -51,7 +57,7 @@ late, you will receive no credit.**
   - [Project description and plan](#user-content-project-description-and-plan) (5%) Sunday, November 1 @ 11:59pm Pacific.
 
 
-  - [Language design and implementation overview](#user-content-language-design-and-implementation-overview) (10%) Sunday, 
+  - [Language design and implementation overview](#user-content-language-design-and-implementation-overview) (10%) Sunday,
     November 8 @ 11:59pm Pacific.
 
 
@@ -61,7 +67,7 @@ late, you will receive no credit.**
   - [Preliminary evaluation](#user-content-preliminary-evaluation) (10%) Sunday, November 22 @ 11:59pm Pacific.
 
 
-  - [Demo / Presentation](#user-content-demo--presentation) (10%) Monday, December 7 / Wednesday, 
+  - [Demo / Presentation](#user-content-demo--presentation) (10%) Monday, December 7 / Wednesday,
     December 9 @ 1:15pm Pacific.
 
 
@@ -71,7 +77,7 @@ late, you will receive no credit.**
     Pacific.
 
 
-## Design notebook 
+## Design notebook
 *Every Sunday @ 11:59pm Pacific, starting Sunday, November 1. (10%)*
 
 Everyone will keep an _individual_ design notebook. This notebook documents
@@ -79,7 +85,7 @@ your design process over the course of the project: important design decisions,
 changes to previous decisions, open questions, exciting milestones, preliminary
 results, etc. Feel free to include images (e.g., a sketch of the design or a
 screenshot of a running program), links to code, and any other resources that
-you think will help clearly convey your design process. 
+you think will help clearly convey your design process.
 
 The notebook also serves as a worklog, recording how much time you spent and how
 much progress you made in a given week. The expectation is that each person will
@@ -95,8 +101,8 @@ The entry for each week should additionally address the following questions:
   - How much time did you spend on the project this week? If you're working in a
     team, how did you share the labor?
 
-After the critique, you'll start your entry for the subsequent week 
-with a summary and reflection of the critiques 
+After the critique, you'll start your entry for the subsequent week
+with a summary and reflection of the critiques
 ([see below](#critiques) for more details).
 
 To get started, [fork the notebook][notebook-fork] to your personal repository.
@@ -105,14 +111,14 @@ the repository. A thoughtful, clear entry each week is good for your project,
 good for your grade, and provides excellent material for your critique partners
 and your final deliverables.
 
-## Critiques 
+## Critiques
 *Every Tuesday @ 11:59pm Pacific, starting Tuesday, November 3. (10%)*
 
 ### Your role as critic
 
 Each week, each person will critique another project in their group. I will
 often post critique prompts, and the project you're critiquing may also have
-some questions they'd like your help with. 
+some questions they'd like your help with.
 _Note: We will often use Monday's class to get started on critiques._
 
 Your job as a critic is to help make the project as good as it can be. Is there
@@ -139,7 +145,7 @@ reflection should answer questions such as:
    - How will you incorporate the feedback into your work? Will you change
      something about the design, implementation, or evaluation as a result?
 
-## Project repositories 
+## Project repositories
 *Create these by Sunday, November 1 @ 11:59pm Pacific.*
 
 Your project will be spread out over three repositories: "project", "notebook",
@@ -175,12 +181,12 @@ _Note: At first, you may not be able to execute programs in the DSL. In that cas
 `README.md` file can point people to example programs, or documentation, or
 whatever you think will be most useful for your critique partners._
 
-If you're working on a team, you might want to create a GitHub organization for 
+If you're working on a team, you might want to create a GitHub organization for
 the project and fork to that project. Alternatively, one of the team members can
 volunteer their personal repository to host the project.
 
-Be sure to invite all the team members, all your critique partners, and 
-Prof. Ben to be members of your repository (so they can critique). You can 
+Be sure to invite all the team members, all your critique partners, and
+Prof. Ben to be members of your repository (so they can critique). You can
 invite others, too!
 
 Consider enabling the Wiki (for documentation) and tickets.
@@ -189,14 +195,14 @@ Note that this repository is distinct from any repository related to CS 111,
 in case you want to make your work publicly available but don't want it to be
 tied to the CS 111's assignments.
 
-**Before this Sunday's deadline**: 
+**Before this Sunday's deadline**:
 
    1. Create the repository, with an initial README
    1. Configure the repository so that all the appropriate people have access
-   1. Add a link to your repository on the 
+   1. Add a link to your repository on the
    [CS 111 wiki page for projects][CS111-projects]
 
-## Project description and plan 
+## Project description and plan
 *Sunday, November 1 @ 11:59pm Pacific. (10%)*
 
 This document is for you to collect and clearly convey the goals of your project
@@ -208,8 +214,8 @@ should address the following issues.
 **Motivation:** Why is this project useful or interesting, what problem are you trying to
     address, and why is a DSL an appropriate solution?
 
-**Language domain:** What is the domain that this language addresses, and why is the domain useful? 
-    Who will benefit from this language? Are there any other DSLs for this 
+**Language domain:** What is the domain that this language addresses, and why is the domain useful?
+    Who will benefit from this language? Are there any other DSLs for this
     domain? If so, what are they, and how might they influence your language
     design and implementation?
 
@@ -217,21 +223,21 @@ should address the following issues.
     What constitutes a program in your language? What happens when a program
     runs? What kinds of input might a program take, and what kinds of output
     might it produce? Are there data or control structures that you know will be
-    useful? What kinds of things might go wrong in a program in this domain 
+    useful? What kinds of things might go wrong in a program in this domain
     (e.g., syntax errors, compile-time errors, run-time errors)? How might you
     design your language to prevent such errors or to clearly communicate the
     results of errors to the user?
 
-_Note:_ You can describe the computations in the `description.md` file, or put them in 
+_Note:_ You can describe the computations in the `description.md` file, or put them in
 separate files. Just be clear about where they are and what they mean.
 
 **Example computations:** Describe some example computations in your DSL. These computations should
     describe what happens when a specific program in your DSL executes. Note
     that you *shouldn't* describe the syntax of the program. Rather you should
     describe some canonical examples that help someone else understand the kinds
-    of things that your DSL will eventually be able to do. 
+    of things that your DSL will eventually be able to do.
 
-Place your **project plan** in the file `documents/plan.md`. It should 
+Place your **project plan** in the file `documents/plan.md`. It should
 answer the following questions.
 
 **Language evaluation:** How will you know that your language has accomplished its goals? What
@@ -239,9 +245,9 @@ answer the following questions.
     *design*? What tools or practices will you use to ensure that your language
     *implementation* is of high quality?
 
-**Implementation plan:** How much time do you think you'll need for the various components of your language 
-    (e.g., finding a host language, implementing the semantics, the parser, 
-    tools, etc)? Provide a brief schedule (e.g., with a deliverable every week) 
+**Implementation plan:** How much time do you think you'll need for the various components of your language
+    (e.g., finding a host language, implementing the semantics, the parser,
+    tools, etc)? Provide a brief schedule (e.g., with a deliverable every week)
     for your project.
 
 **Teamwork plan:** If you are working in a team, how do you plan to
@@ -250,12 +256,12 @@ answer the following questions.
     documentation.*
 
 
-## Language design and implementation overview 
+## Language design and implementation overview
 
 *Sunday, November 8 @ 11:59pm Pacific. (10%)*
 
 This overview is a chance to reflect and get feedback on the important design
-and implementation decisions you've made so far. 
+and implementation decisions you've made so far.
 
 Place your overview in the file `documents/design_and_implementation.md`. It
 should address the following topics:
@@ -286,7 +292,7 @@ decisions you've made, including:
 
 - Your choice of an internal vs. external implementation and how and why you
   made that choice.
-- Your choice of a host language and how and why you made that choice. 
+- Your choice of a host language and how and why you made that choice.
 - Any significant syntax design decisions you've made and the reasons for those
   decisions.
 - An overview of the architecture of your system.
@@ -297,11 +303,11 @@ decisions you've made, including:
 
 Have a preliminary version of your language by this time. The prototype can be
 paper-based, in part or in full; although you should probably have a good
-portion of code written by this point. We'll do critiques / code review of the 
+portion of code written by this point. We'll do critiques / code review of the
 prototypes in class this coming week.
 
 
-## Preliminary evaluation 
+## Preliminary evaluation
 
 *Sunday, November 22 @ 11:59pm Pacific. (10%)*
 
@@ -324,11 +330,11 @@ the file `documents/evaluation.md`. Be sure to address the following issues:
 -   If you worked as a pair, describe how you have divided your labor and
     whether that division has worked well.
 
-## Demo / Presentation 
+## Demo / Presentation
 
 *Monday, December 7 / Wednesday & December 9 @ 1:15pm Pacific. (10%)*
 
-This is your chance to show off by giving a demo of your DSL. 
+This is your chance to show off by giving a demo of your DSL.
 In particular, we want to see:
 
 1.  Your vision of a language in this domain. Why does the domain need a
@@ -353,7 +359,7 @@ In particular, we want to see:
 can "fake" the demo to show us your vision, if your vision is too ambitious for
 the project.*
 
-## Final product 
+## Final product
 *Friday, December 11 @ 11:59pm Pacific. (15%)*
 
 Commit all the materials for your language, along with a few sample programs. Be
@@ -363,7 +369,7 @@ your DSL. Your code should follow good practices. In particular, it should be
 well-architected (i.e., modular), well-tested, and well-documented.
 
 
-## Final write-up 
+## Final write-up
 *Friday, December 11 @ 11:59pm Pacific. (15%)*
 
 Your write-up should describe your domain, your language, and your
@@ -378,7 +384,7 @@ sufficient.
 (i.e., how could domain-experts use and benefit from a DSL?). What is the
 essence of your language, and why is it a good language for this domain?
 
-_Note: Your project description can serve as a good first draft 
+_Note: Your project description can serve as a good first draft
 of the introduction._
 
 
@@ -459,7 +465,7 @@ particular:
 -   If you worked as a pair, describe how you have divided your labor and
     whether that division has worked well.
 
-_Note: Your preliminary evaluation can serve as a good first draft of the 
+_Note: Your preliminary evaluation can serve as a good first draft of the
 evaluation section_
 
 
