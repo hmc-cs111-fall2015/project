@@ -353,6 +353,15 @@ In particular, we want to see:
 can "fake" the demo to show us your vision, if your vision is too ambitious for
 the project.*
 
+The demo will be evaluated using the following rubric:
+
+| criteria                                                                                                                                                                                | weight |
+| ---                                                                                                                                                                                     | ---    |
+| The domain is clear and well-motivated. The presenter(s) described problems faced by experts in this domain and how a language can help.                                                | 0.35   |
+| The presenter(s) demonstrated what’s interesting about this language, especially as a solution to the problems faced by experts in the domain.                                          | 0.25   |
+| The presenter(s) conveyed the essence of their language: it’s design philosophy or implementation technique. The information conveyed would be compelling to other people in the class. | 0.20   |
+| The presenter(s) clearly communicated insights into the design and implementation of a DSL for this domain.                                                                             | 0.20   |
+
 ## Final product 
 *Friday, December 11 @ 11:59pm Pacific. (15%)*
 
