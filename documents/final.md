@@ -130,3 +130,17 @@ Layering is in the proper order, and a small X is placed at the anchor point of 
   * The generate call is improperly specified
   
 ###Language implementation
+
+This is an external DSL whose host language is Scala. With the background the class provided for creating an external DSL, and how far removed from general programming this domain is, it seemed like the best choice.
+Additionally, Scala shares many libraries with Java, and there was a Java image processing library that worked well.
+
+The front end is fairly simple; the text file is given, read in as a string, and sent to the parser.
+
+The parser reads in the file and generates an AST object for the semantics to use. A good portion of error handling happens here.
+Essentially, the file is read in three chunks: the tile specifications, the map specifications, and the generate calls.
+Most of the parsing matches strings and reads in names, with the exception of the parser for the image path, which must use a few more parsing objects to work around the `/` and checks to see if the image file has an acceptable format.
+
+The parser, AST, and semantics are all tuned to work with each other, so some changes to each have been made to compromise between the different parts.
+
+Thus, an AST object takes in three values: a list of (TileName, Tile) tuples, a Map object, and a list of (MapType, String) tuples. The first of these is used to create a hashtable of tilenames and their tiles, stored as tileTable. The second is simply a Map object, and the third is the list of generate calls, where MapType is either `basic` or `debug`.
+
