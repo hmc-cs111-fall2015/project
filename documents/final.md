@@ -1,4 +1,4 @@
-###Introduction
+##Introduction
 
 Tile-based games are very popular for RPG indie developers (or for any developer that can use tile-based backgrounds for their games),
 but most software that exists to generate tile maps limit users to square tiles,
@@ -7,7 +7,7 @@ making it difficult to have more natural looking regions without creating a ton 
 Though a text-based DSL is not ideal for this, making small adjustments to the map is generally easier than with traditional
 map-making software, and is possible without users needing to create new tiles or adjusting the tile images.
 
-###Language Design Details
+##Language Design Details
 
 The code currently runs in Eclipse. The user must save a text file with their code in the src directory, and then when
 running tilemap.scala type the name of the file in the command line. The specified images are then generated.
@@ -129,12 +129,14 @@ Layering is in the proper order, and a small X is placed at the anchor point of 
 * Errors: The program will crash and output an error message if
   * The generate call is improperly specified
   
-###Language implementation
+##Language implementation
 
 This is an external DSL whose host language is Scala. With the background the class provided for creating an external DSL, and how far removed from general programming this domain is, it seemed like the best choice.
 Additionally, Scala shares many libraries with Java, and there was a Java image processing library that worked well.
 
 The front end is fairly simple; the text file is given, read in as a string, and sent to the parser.
+
+###Parsing
 
 The parser reads in the file and generates an AST object for the semantics to use. A good portion of error handling happens here.
 Essentially, the file is read in three chunks: the tile specifications, the map specifications, and the generate calls.
@@ -142,5 +144,17 @@ Most of the parsing matches strings and reads in names, with the exception of th
 
 The parser, AST, and semantics are all tuned to work with each other, so some changes to each have been made to compromise between the different parts.
 
-Thus, an AST object takes in three values: a list of (TileName, Tile) tuples, a Map object, and a list of (MapType, String) tuples. The first of these is used to create a hashtable of tilenames and their tiles, stored as tileTable. The second is simply a Map object, and the third is the list of generate calls, where MapType is either `basic` or `debug`.
+###Internal Representation
+
+Thus, an AST object takes in three values: a list of (TileName (String), Tile) tuples, a Map object, and a list of (MapType, String) tuples. The first of these is used to create a hashtable of tilenames and their tiles, stored as tileTable. The second is simply a Map object, and the third is the list of generate calls, where MapType is either `basic` or `debug`.
+
+Tile objects have a name and a file, which is loaded with a given url. BaseTiles and FreeTiles extend from Tiles, where FreeTiles have an achor, which is a Point (with an x and a y).
+
+Maps have a width, height, origin, and a list of Layers. The origin is either `topRight` or `topLeft`, while the layers are mergesorted by precedence number upon Map instantiation.
+
+Each Layer has a precedence number and a list of Instrs (instructions); the instrs are bubblesorted on Layer instantiation so that the `fill` Instrs, or Areas, are before the `place` Instrs, or PlacePoints.
+
+Each Instr has a tilename, and each PlacePoint has a list of Points. Finally, the Areas have a rect flag specifying if the area is a rectangle or not, and a list of Points. The check for the proper number of points happens upon Area instantiation.
+
+###Semantics
 
