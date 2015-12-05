@@ -158,3 +158,18 @@ Each Instr has a tilename, and each PlacePoint has a list of Points. Finally, th
 
 ###Semantics
 
+To prevent the creation/reading of image files on every instruction, there is one hashmap that maps tile names to images in the Java IP library. 
+
+First, the AST is read in. This tile-image hashmap is constructed, and then for each instruction, either `makeMap` or `makeDebugMap` is called.
+
+Both these functions take in the Map, the tilename-Tile hashmap from the AST, the tile-image hashmap, and the name to save the map as.
+
+For the `makeMap` function, a BufferedImage is created, along with a canvas to draw the tiles on. For each layer, the list of instructions are read in and matched to an Area or a PlacePoint. For areas, the tile type is checked, and then the leftmost and rightmost x values and topmost and bottommost y values are added in. Then, depending on what shape the area is, the tiles will be drawn and cropped to the shape. For placepoints, the tile type is checked, and the tiles are drawn based on calculations with the anchor points.
+
+At the very end, the BufferedImage is written to a file with the given name.
+
+The `makeDebugMap` function works in a similar way, but instead of clipping a pattern of tiles into an area, the shapes are drawn (as lines, not filled in) with one randomized color for each layer.
+
+##Evaluation
+
+
