@@ -15,34 +15,34 @@ running tilemap.scala type the name of the file in the command line. The specifi
 The following is a sample map file:
 
 ```
-tile water = src/Water.jpg
-tile ground = src/Ground.jpg
-freeform tile river = src/River.jpg {
-    anchor = (14, 0)
+tile water = src/Water.png
+tile grass = src/Grass.png
+freeform tile river = src/River.png {
+    anchor = (14,0)
 }
-freeform tile house = src/House.jpg
 
 map {
     width = 300
-    height = 300
+    height = 300 
     origin = topLeft
     
     layer 0 {
-        fill rectangle (0,0) (300,300) with ground
-    }
-    layer 1 {
-        fill area (300,300) (0,300) (0, 245) (50, 266) 
-                  (100, 215) (110, 225) (150, 235) (190, 200)
-                  (222, 167) (245, 133) (250, 99) (266, 45) (270, 0) (300, 0) with water
+        fill rectangle (0,0) (300,300) with grass
     }
     layer 2 {
-        at (55, 0) place river
-        at (30, 145) (140, 89) place house
+        fill area (300,300) (0,300) (0, 245) (40, 256) (66, 244) 
+                  (100, 205) (110, 205) (150, 215) (190, 180)
+                  (222, 167) (245, 133) (250, 99) (266, 45) (270, 0) (300, 0) with water
+    }
+    layer 1 {
+        fill area (85, 0) (110, 0) (108, 125) (110, 145) (110, 220) 
+                  (85, 220) (80, 175) (77, 145) (79, 60) with water
+        at (85, 0) place river
     }
 }
 
-generate debug map as BasicDebugMap
-generate map as BasicMap
+generate debug map as ExampleDebugMap
+generate map as ExampleMap
 ```
 
 The first part of the code is the specification of the tiles.
@@ -82,17 +82,18 @@ Also, the origin is optional; if none is specified, topLeft is default.
   
 Then, layers are specified.
 ```
-layer 0 {
-        fill rectangle (0,0) (300,300) with ground
-    }
-    layer 1 {
-        fill area (300,300) (0,300) (0, 245) (50, 266) 
-                  (100, 215) (110, 225) (150, 235) (190, 200)
-                  (222, 167) (245, 133) (250, 99) (266, 45) (270, 0) (300, 0) with water
+    layer 0 {
+        fill rectangle (0,0) (300,300) with grass
     }
     layer 2 {
-        at (55, 0) place river
-        at (30, 145) (140, 89) place house
+        fill area (300,300) (0,300) (0, 245) (40, 256) (66, 244) 
+                  (100, 205) (110, 205) (150, 215) (190, 180)
+                  (222, 167) (245, 133) (250, 99) (266, 45) (270, 0) (300, 0) with water
+    }
+    layer 1 {
+        fill area (85, 0) (110, 0) (108, 125) (110, 145) (110, 220) 
+                  (85, 220) (80, 175) (77, 145) (79, 60) with water
+        at (85, 0) place river
     }
 ```
 Each layer has a precedence number, and can be specified in any order. The numbers also do not have to be sequential (for example, -3, 4, 100 is allowed).
@@ -171,5 +172,8 @@ At the very end, the BufferedImage is written to a file with the given name.
 The `makeDebugMap` function works in a similar way, but instead of clipping a pattern of tiles into an area, the shapes are drawn (as lines, not filled in) with one randomized color for each layer.
 
 ##Evaluation
+
+The language is pretty "DSL-y". The syntax is somewhat similar to other GPLs - such as python, for instance - but the keywords and layout of the files are fairly domain-specific.
+One potential problem with the language is that, as it is now, it's not very extensible. 
 
 
