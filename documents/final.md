@@ -176,4 +176,4 @@ The `makeDebugMap` function works in a similar way, but instead of clipping a pa
 The language is pretty "DSL-y". The syntax is somewhat similar to other GPLs - such as python, for instance - but the keywords and layout of the files are fairly domain-specific.
 One potential problem with the language is that, as it is now, it's not very extensible. 
 
-
+One of the things I'm pleased with is how I arranged the tiles to be filled in such that multiple areas that overlap will not look like they dont fit together. While this may mean some tiles are repeatedly drawn over each other, and is somewhat less efficient than checking to see if a certain tile was already there, it improves the user experience --
