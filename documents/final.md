@@ -173,7 +173,22 @@ The `makeDebugMap` function works in a similar way, but instead of clipping a pa
 
 ##Evaluation
 
-The language is pretty "DSL-y". The syntax is somewhat similar to other GPLs - such as python, for instance - but the keywords and layout of the files are fairly domain-specific.
-One potential problem with the language is that, as it is now, it's not very extensible. 
+The language is pretty "DSL-y". The syntax is somewhat similar to other GPLs - such as Python ot Java, for instance - but the keywords and layout of the files are fairly domain-specific.
 
-One of the things I'm pleased with is how I arranged the tiles to be filled in such that multiple areas that overlap will not look like they dont fit together. While this may mean some tiles are repeatedly drawn over each other, and is somewhat less efficient than checking to see if a certain tile was already there, it improves the user experience --
+One of the things I'm pleased with is how I arranged the tiles to be filled in such that multiple areas that overlap will not look like they dont fit together. While this may mean some tiles are repeatedly drawn over each other, and is somewhat less efficient than checking to see if a certain tile was already there, it improves the user experience by letting them create complex map pieces in chunks rather than all at once.
+
+Another good thing about the language is how clean and easy to read and write the map files are, which is what I wanted out of them.
+The bit of sorting I do also makes it easy to interact with the language - for instance, users don't have to move around chunks of code to change the layer ordering; instead, they can just swap numbers.
+Finally, the error checking isn't completely comprehensive, but it captures quite a few use cases and overall I'm happy with it.
+
+One potential problem with the language is that, as it is now, it's not very extensible. The parser would have to be heavily altered or rewritten to change the layout of the map files. However, Instrs are a class of their own, so more instructions could be added. Also, new pieces could be added in, say, before the map and after the tile definitions. For instance, something that didn't get implemented is tile sets, which would be defined as multiple tiles that are used as one large grouped tile. Other features that are missing are the ability to draw smooth curves, changing the map orientation for fill commands, and borders for base tiles.
+
+The current implementation is quick and pretty easy to use, without much overhead. However, writing a huge list of points can be tedious, and it can be hard to keep track of where a specific point is. There are some fixes to the problem, but in all the language would function much better with a GUI.
+
+I was able to follow my evaluation plan, for the most part. I ended up not using the image processing library I found and instead was able to use a Java IP library instead; since the operations I used were simple, this was much easier to do, although I did manage to find out how to use Eclipse include an external library downloaded from Github.
+
+There were also a few changes to the parser; for one, the error handling code is a bit different than it was in the piconot assignment. Also, I switched out `rword`s for just putting the words in quotation marks. This solved a huge issue I had, which was trying to read in the `=`. I also ended up not figuring out how to read in any `"`, which probably had an easy solution, but I prioritized other functionality over solving this. 
+
+In the end, parsing was the biggest issue; the semantics worked pretty well, and I found the library features I needed to. Once the parsing was solved, progress went fairly smoothly, though I unfortunately ran out of time. I also didn't manage to get sbt to play nice with the code, so it only runs in Eclipse.
+
+In all, I'd call this project a success.
