@@ -76,9 +76,80 @@ in generated flowcharts, which has the beneficial side effect
 of further enforcing comment documentation.
 
 
+## Example Program
+
+### Java File
+
+```java
+import java.util.Scanner;
+import java.util.stream.IntStream;
+
+public class Demo {
+  public static void main(String[] args) {
+    Scanner reader = new Scanner(System.in);
+
+    //$ Get a positive integer from the user
+    System.out.print("Enter a positive integer: ");
+    int n = reader.nextInt();
+
+    //$ Prompt user for sum or product
+    System.out.printf("Would you like the sum of the positive integers up to %d? (y/n) ", n);
+
+    //? Sum selected?
+    if (reader.next().equals("y")) {
+      //X Compute and print sum
+      System.out.printf("The sum is %d.\n",
+          IntStream.rangeClosed(1, n).sum());
+    } else {
+      //X Compute and print product
+      System.out.printf("The product is %d.\n",
+          IntStream.rangeClosed(1, n).reduce(1, (a,b) -> a * b));
+    }
+  }
+}
+
+```
+
+### Output Flowchart
+
+![Demo Flowchart]
+
+
 ## Language Implementation
 
+Codeviz is an external DSL whose syntax is embedded within a targetted language
+for the purpose of making the tool accessible and easy to use:
+programmers don't have to venture far from the code itself to generate the flowcharts.
+The DSL must be external so that it can parse the comments
+which are ignored by the underlying language's compiler.
+I chose Java as the host language because I wanted to target Java
+as the first language that Codeviz supports&mdash;since the language is currently very popular,
+and I want to maximize impact. The best parser I found for parsing Java
+is written in Java, so I figured I'd just use Java.
 
+For this first iteration, the computation process looks like this:
+
+1. Parse a Java file into an abstract syntax tree (AST) using [JavaParser]
+2. Translate this Java AST into an AST that represents a flowchart
+3. Generate a DOT file with [graphviz4j] (a Java library for writing DOT files)
+that represents a flowchart based on the flowchart AST
+
+The flowchart abstract syntax uses a foundational abstract class `FlowchartNode`
+(originally just `Node` but changed due to a name conflict with JavaParser's `Node` class)
+which represents the smallest component of a flowchart
+that has any number of arrows entering and exiting.
+The concrete classes that stem from `FlowchartNode` are `Process`, `Decision`, `Terminal`, `Connector`,
+each of which has a distinct meaning and shape in a flowchart
+and each of which (if applicable) points to the subsequent node(s).
+`Process` and `Connector` extend the abstract class `SingleExitNode`
+(which extends `FlowchartNode`) because both have a notion of a single `nextNode`
+to which they're (potentially) linked; the abstract class centralizes methods for setting and retrieving this node,
+and provides a name for (and therefore easy reference to) the trait.
+
+The DOT file generation is currently coupled with the flowchart abstract syntax:
+each `FlowchartNode` 'knows' how to render itself via a method,
+so after the flowchart AST is built, the 'rendering' method of the first node is called
+and each node calls the rendering method for any nodes to which it's linked.
 
 
 ## Evaluation
@@ -88,6 +159,9 @@ of further enforcing comment documentation.
 
 [code2flow]: http://code2flow.com/
 [Codeviz]: https://github.com/JustisAllen/Codeviz
+[Demo Flowchart]: https://github.com/JustisAllen/Codeviz/blob/master/example/Demo.jpg
 [DOT]: http://www.graphviz.org/content/dot-language
 [Flowgen]: http://jlopezvi.github.io/Flowgen/index.html
 [Flowgen Paper]: http://arxiv.org/pdf/1405.3240.pdf
+[graphviz4j]: https://github.com/shevek/graphviz4j
+[JavaParser]: https://github.com/javaparser/javaparser
