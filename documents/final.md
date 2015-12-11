@@ -1,7 +1,5 @@
 ## Introduction
 
-### Motivation
-
 Trying to understand someone else's code&mdash;especially
 at a large scale&mdash;can be an intimidating, difficult, and overwhelming task:
 having to distinguish keywords and follow control flow in raw source code can be tiring,
@@ -29,15 +27,39 @@ Perhaps optimistically, the language will also compel programmers
 to write more high level, commented, and documented code
 because doing so is a sort of requirement of the language.
 
-### Domain
 
-Codeviz lives in the domain of code documentation and visualization,
-which is important for the reasons prescribed above.
-Documentation helps people understand the purpose or high level control flow of some code
-without necesarilly requiring knowledge of the underlying implementation;
-and visualization is sometimes a better medium than pure text documentation.
+## Language Design
 
-[code2flow] is another language in the domain, and is designed to make flowchart creation easy
+Codeviz illustrates the control flow of some code by means of a flowchart.
+A valid Codeviz program is a valid program in the underlying language
+(Java for this first iteration) with the additional condition
+that the program must include 'Codeviz comments'
+(i.e., the embedded, comment-based syntax).
+As stated above, this syntax offers an accessible way (like Javadoc)
+to generate documentation without venturing far from the code.
+A program does not accept any input but produces a Graphviz [DOT] file representing a flowchart as output.
+The basic data structures are flowchart nodes
+which users create using Codeviz comments:
+`//$` generates a `Process` node, `//X` generates a `Terminal` node,
+and `//?` (along with an `if` statement) generates a `Decision` node.
+Currently, users can describe but not manipulate control flow:
+there is no notion of nodes that are conditionally included in a flowchart.
+
+### Errors
+
+An error is reported on the command line if:
+
+* the Codeviz program/input file
+  * doesn't compile in the underlying language.
+  * contains no Codeviz comments.
+  * doesn't have a "main" method.
+* the user indicates that an `if` statement should be represented in the flowchart,
+but does not add Codeviz comments in the `if` portion.
+
+### Similar Projects
+
+[code2flow] is another language in the domain of code documentation and visualization,
+and is designed to make flowchart creation easy
 by providing a C++/Java-esque interface for generating flowcharts.
 Though charming, this language does not suit my ideal well
 because it's not embedded in an existing language.
@@ -54,11 +76,6 @@ in generated flowcharts, which has the beneficial side effect
 of further enforcing comment documentation.
 
 
-## Language Design
-
-
-
-
 ## Language Implementation
 
 
@@ -71,5 +88,6 @@ of further enforcing comment documentation.
 
 [code2flow]: http://code2flow.com/
 [Codeviz]: https://github.com/JustisAllen/Codeviz
+[DOT]: http://www.graphviz.org/content/dot-language
 [Flowgen]: http://jlopezvi.github.io/Flowgen/index.html
 [Flowgen Paper]: http://arxiv.org/pdf/1405.3240.pdf
