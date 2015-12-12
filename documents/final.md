@@ -4,107 +4,147 @@
 
 Coffee drinks are difficult to make. In the world of the ever-present hipster, it's getting harder and harder to get it just right. In a world where customers actually order a "split-shot, heavy on decaf, 20 oz, soy, extra dry latte, with half pump vanilla & half-pump hazlenut", keeping track of all the modifications to make for a coffee drink is a difficult experience even for a physical barista. On the other hand, automatic coffee machines have a finite amount of settings that a customer can customize, so are not as customizable as ordering from a live barista. 
 
-If there was a standard language by which a customer could specify a drink to an arbitrary level of precision, then you could easily program an automatic coffee machine to make exactly the drink you want. 
+Introducing CaffeineScript: a standard language by which a customer could specify a drink to an arbitrary level of precision, then you could easily program an automatic coffee machine to make exactly the drink you want. 
 
-We need a DSL for this because we want to enable users to specify their drinks to arbitrary levels of precision. There are so many factors that go into a caffeinated or alcoholic beverage that we need a language (rather than, for instance, an enumerated type), because there are just so many possibilities.
-
-## Language domain
-
-This language addresses the domain of automated coffee drink specification. The domain is useful because it seems to me like automated drink machines will never be able to attain the quality of a human barista or bartended until you can specify your drinks as much as you want. 
-
-I don't believe there are any other DSLs in this domain. The closest thing I could find while searching for similar languages was [this](https://en.wikipedia.org/wiki/Hyper_Text_Coffee_Pot_Control_Protocol). 
-
-## Language design
-
-A program in the language is going to look like a list of instructions to execute, in order. We require the language to be imperative instead of declarative because it makes a difference the order in which ingredients are added to what the final product will look/taste like. Thus, we should allow the user to control the order in which things happen. For instance, most baristas add shots of coffee to the milk in a latte, and not the other way around. When a program runs, depending on the backend attached to the language, you could get as a result:
-
-1. A physical coffee drink. (this would be ideal, but is too much work to implement for this class)
-2. A sequence of print statements corresponding to the steps taken to produce the drink.
-3. A visual rendering of the coffee drink.
-4. Analysis of the recipe to see what ingredients you need to make the drink, and in what quantity. 
-
-I'm not sure what kinds of control structures/data structures might be useful yet, except for a mutable list in which to keep the steps to execute that come out of the parser. When I decide exactly what the syntax of a program will look like, anything that doesn't match that syntax will throw an error because the parser won't be able to parse it. As far as compile or runtime errors go, I think figuring out what these will be will happen organically as I start to write the language. One possible semantic error I thought of is trying to add 0 parts of something - though you deal with this by ignoring the instruction, for the sake of readable code it would probably be better to not allow the user to do that. 
-
-## Example computations
-
-Initially, I had thought that an program could look like this:
-```
-Begin LATTE:
-1. 2 shots espresso
-2. Add 10 oz 2% milk
-3. Add 2 oz foam
-4. Add 4 pumps sugar
-End LATTE:
-```
-However, during the first peer review of my project pitch, it was suggested that I specify the amount of each ingredient to use in terms of weights. This is so that you could calibrate the machine to produce a drink of a particular size based on the size of cups available. 
-So instead of specifying quantities as `2 shots espresso`, you could specify `10% espresso` and the machine would deal with figuring out the exact quantity to produce based on the cup size. In this case, we'd need the programmer to have a way to specify the cup size as well (if, for instance, they're using their own cup), maybe at the top of the file. 
-
-So instead an example program might look like this:
-```
-Begin LATTE:
-1. 7 parts 2% milk.
-3. Add 1.5 parts foam
-3. Add 1 part espresso
-4. Add 0.5 parts sugar
-End LATTE:
-```
-When this program runs, the following things should happen:
-
-1. The parser parses the program into a list of rules to execute sequentially.
-2. Each rule should be parsed to extract 2 key pieces of data - the name of the ingredient used and the quantity of that ingredient to add. 
-3. Once the program is fully parsed, it will be executed by iterating over the list of rules and executing each one. 
-4. A rule will be executed by calling the appropriate API function of the backend (the idea is that each of the possible backends I mentioned above implement the same interfact).
-5. Depending on which backend is in place at the time, an output of some type will be created 
+We need a DSL for this because we want to enable users to specify their drinks to arbitrary levels of precision. There are so many factors that go into a caffeinated beverage that we need a language (rather than, for instance, an enumerated type), because there are just so many possibilities.
 
 # Language design and implementation overview
 
 ## Language design
 
-A user writes programs in my language by creating a text file containing the instructions to be executed. 
+A user writes programs in CaffeineScript by creating a text file containing the instructions to be executed. In the future, I might build a GUI on top of the language to make it more friendly to non-programmers. I think all of the structure of the language should be translatable into a GUI. 
 
-The computational model being used depends on which backend is hooked up to the language, in my opinion. For instance, the backend described later in this document does constraint satisfaction, while the printing backend I've currently enabled just iterates over the instructions and evaluates them. I'm not even sure what computational model you'd use to describe the ideal backend, which executes instructions to actually produce a beverage.
+A program in CaffeineScript has 2 sections: the (optional) header and the body. Within the header, you can define recipes for coffee drinks which you can reference from the body of the program. In the body, you'll write the instructions to make the final drink that you want.
 
-The basic data structure is the instruction. An instruction contains an ingredient (the ingredient being used in this instruction), a verb (add, pour, sprinkle, etc), and a quantity specifying the quantity of the ingredient to add (eg, 2 scooops). A program is simply a list of instructions. 
+The basic building block of a program is the instruction. There are 4 different kinds of instructions: regular instructions, swap instructions, make instructions, and remove instructions. A regular instruction is used to add a certain quantity of an ingredient. a make instruction adds all the contents of a recipe that you defined in the header to the current drink. A swap instruction swaps every instance of some ingredient for another ingredient of your choosing. Finally, a remove instruction removes all instances of the ingredient in the recipe so far. It's important to note that swap and remove instructions only modify the ingredients that have already been added to the drink when they are executed or, equivalently, only modify instructions that precede them in the program.
 
-There are no control structures in my DSL, as yet. I don't currently intend to add any control flow structures or allow the user to specify/manipulate control flow (except maybe by defining and using macros, though I wouldn't really consider this manipulating control flow).
+Here's the syntax of a program: 
+```
+{ header } body
+```
+or 
+```
+body
+``` 
 
-A program in the DSL currently requires a sequence of instructions, provided in a ceratin format. Here's an example of a CaffeineScript program:
+The header consists of 0 or more recipe definitions, whose syntax is as follows:
+``` 
+RECIPENAME {
+  recipebody
+}
+```
+where the recipe name must be in all capital letters, and the body is a series of instructions of the 4 types mentioned above. A recipe should only be defined once in the header - creating 2 recipes with the same name will lead to undefined behaviour. 
+
+Here's the syntax of the 4 basic types of instructions:
+  - Regular instruction : `<verb> <quantity> @ <ingredient>`. For example, `scoop 2 spoons @ sugar;`.
+  - Make instruction : `make <RECIPENAME>`. For example, `make LATTE`. If you have a `make <RECIPE>` in your program, `RECIPE` should be defined in the header of the program.
+  - Swap instruction : `swap <ingredient1> -> <ingredient2>`. For example, `swap water -> espresso;`. This substitues in water for espresso for every instance of espresso that's currently in the drink.
+  - Remove instruction : `remove <ingredient>`. This removes all instances of the ingredient specified that have been added before this line.
+
+In an instruction, \<verb\> is any English verb (describing how to add the ingredient in question), \<quantity\> is 
+a number followed by a word to specify how much of the ingredient to add, and \<ingredient\> is the name of 
+the ingredient. For example, in the line `add 2 shots of espresso`, `add` is the verb, `2 shots` is the quantity, and
+`espresso` is the ingredient. It's important to note that while an ingredient can contain multiple words, a quantity must be a number followed by 1 word, and the verb can only be one word. 
+
+It's important to notice that the syntax of the language is very similar to the syntax of a general-purpose programming language, from the use of curly braces to demarcate sections of the program to the use of keywords to denote specific kinds of instructions. As is, the language wouldn't be as easy to use for a layman as for a programmer. My hope is that programmers would build a GUI on top of the language that would allow end users to use the language through a more intuitive interface. That said, the fact that the language is pretty small means that it should be quicker to pick up for a non-programmer than a general purpose language would be. 
+
+One way in which a program can go wrong is if a user uses references a recipe in a make instruction that doesn't exist. In this case, I throw an IllegalArgumentException with an informative error message. I handle errors where the user tries to define two recipes with the same name similarly. Another possible error that I've considered is an error where two recipes reference each other. I haven't explicitly handled this case, instead trusting Scala to throw a StackOverflowException when this occurs. Some of the errors I haven't concerned myself with much are syntatictic errors, where a program doesn't get parsed correctly. The main reason for not considering these errors, or spending more time on semantic error handling was a lack of time - I had to make tradeoffs on which language features I spent more/less time on, and error checking didn't get as much attention as I'd originally thought it might.
+
+The project doesn't provide any tool support, and I don't have any plans to make it do so. That stuff, while useful for a general purpose programming language, doesn't (in my opinion) have much place in a language as small as this. 
+
+There aren't other DSLs for this domain that I know of. Kevin made a good point in one of his critiques that the machine that makes bottled Starbucks frappes could be using a DSL internally, but this is probably a proprietary language (if it exists), which is why I couldn't find it or learn from it when I was searching for other DSLs in this space. 
+
+## Example valid program
+
+### Input
 
 ```
-add 4 shots espresso;
-pour 3 oz milk;
-scoop 2 spoons sugar;
-sprinkle 10 grams cinnamon;
+{
+    MOCHA {
+        make LATTE;
+        add 2 scoops @ chocolate powder;
+    }
+
+    LATTE {
+        add 4 shots @ espresso;
+        pour 3 oz @ milk;
+        scoop 2 spoons @ sugar;
+    }
+}
+
+make MOCHA;
+swap water -> espresso;
+remove milk;
 ```
 
-If I add features where the user can specify additional info (aside from the instructions themselves), such as what ingredients and what quantity are available, or how many cups of the specified drink to make, the program structure will need to include a header of some kind, that's separate from the instruction list. I anticipate this making the parser a lot more... involved, so I may have to ask Prof Ben if he has any tips for how to parse programs with multiple distinct parts (especially if some of these parts are optional!). 
-
-The output that a program produces depends on what backend it's hooked up to. The ideal output would be a nice cup of coffee, but in lieu of that I've created one backend that just prints the instructions being executed in sequence (you'll have to imagine the cup of coffee). The output from this backend looks as follows:
+### Output
 
 ```
-adding 4 shots of espresso
-pouring 3 oz of milk
-scooping 2 spoons of sugar
-sprinkleing 10 grams of cinnamon
+adding 4.0 shots of water 
+scooping 2.0 spoons of sugar
+adding 2.0 scoops of chocolate powder
 ```
 
-I'm still in the brainstorming stage for other backends that would be interesting to have for this language, but the one that I'm interested in adding analyzes what ingredients you have and in what quantity and tells you whether you have the ingredients you need to make the drink you want in the quantity you asked for. 
+## Example invalid program
 
-One way in which a program can go wrong is if a user uses a liquid verb to modify a solid ingredient: for instance, `pour 3 oz sugar` doesn't make any sense. I remedied this by creating a separate set of solid ingredient related words and liquid ingredient related words, and only let the parser accept an instruction that has all words of one kind. Other ways a program could go wrong are by making the cup the drink is created in runneth over, or not adding any liquid ingredient at all (at that point, is it even a drink?). I haven't done any error handling yet, but I imagine that critical errors will be thrown as exceptions while noncritical issues may be printed as warnings (I haven't decided for sure whether to add warnings yet). 
+### Input
 
-The project doesn't provide any tool support as yet, and I don't have any plans to make it do so. That stuff, while useful for a general purpose programming language, doesn't (in my opinion) have much place in a language as small as this. 
+```
+{
+    MOCHA {
+        make LATTE;
+        add 2 scoops @ chocolate powder;
+    }
 
-There aren't other DSLs for this domain that I know of. Kevin made a good point in his critique this week that the machine that makes bottled Starbucks frappes could be using a DSL internally, but this is probably a proprietary language (if it exists), which is why I couldn't find it or learn from it when I was searching for other DSLs in this space. 
+    LATTE {
+        add 4 shots @ espresso;
+        pour 3 oz @ milk;
+        scoop 2 spoons @ sugar;
+    }
+
+    LATTE {
+        add 4 shots @ espresso;
+        pour 3 oz @ milk;
+        scoop 2 spoons @ sugar;
+    }
+}
+
+make MOCHA;
+```
+
+### Output
+
+```
+[error] (run-main-0) java.lang.IllegalArgumentException: Recipe with name: LATTE is defined multiple times!
+java.lang.IllegalArgumentException: Recipe with name: LATTE is defined multiple times!
+	at caffeineScript.semantics.Transformer.package$$anonfun$transform$1.apply(Transformer.scala:15)
+	at caffeineScript.semantics.Transformer.package$$anonfun$transform$1.apply(Transformer.scala:14)
+	at scala.collection.immutable.List.foreach(List.scala:381)
+	at caffeineScript.semantics.Transformer.package$.transform(Transformer.scala:14)
+	at caffeineScript.main.Main$.main(Main.scala:22)
+	at caffeineScript.main.Main.main(Main.scala)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+[trace] Stack trace suppressed: run last compile:run for the full output.
+java.lang.RuntimeException: Nonzero exit code: 1
+	at scala.sys.package$.error(package.scala:27)
+[trace] Stack trace suppressed: run last compile:run for the full output.
+[error] (compile:run) Nonzero exit code: 1
+[error] Total time: 1 s, completed Dec 9, 2015 8:43:54 PM
+make: *** [all] Error 1
+```
 
 ## Language implementation
 
-I chose to write an external DSL in Scala. The first choice I made was the choice of language to write it in - I chose Scala partly to force myself to learn Scala (and functional programming paradigms in general), even though I may have been more comfortable in Java. In addition, I anticipated that many of my classmates might choose to write their languages in Scala, making it easier to go to them for debugging help. (Also, Prof Ben seems to know the language quite well, which is a plus).
+I chose to write an external DSL in Scala. I chose Scala partly to force myself to learn Scala (and functional programming paradigms in general), even though I may have been more comfortable in Java. In addition, I anticipated that many of my classmates might choose to write their languages in Scala, making it easier to go to them for debugging help (Also, Prof Ben knows the language quite well, which was helpful for debugging purposes).
 
 Given that I was going to use Scala, choosing to make an external DSL instead of an internal one was a no-brainer for me. Three major factors shaped this decision:
 
 1. I knew that my language wasn't really related to Scala's domain (ie, there was no need for my language's code to exist alongside regular Scala code). In particular, the language is targeted at a very narrow domain and wouldn't benefit from being in the same environment as regular Scala code.
 2. Implementing piconot as an internal DSL was **way** more painful that externalizing it, and I anticipated the features of Scala hindering more than helping for CaffeieneScript as well.
-3. CaffeineScript has a very different feel from Scala. The goal is to make a program sound like natural language, specifically like a recipe. This is not what programs in Scala read like.
+3. CaffeineScript has a very different feel from Scala. The goal was to make a program sound like a recipe. This is not what programs in Scala read like.
 
 As far as syntax goes, the first significant decision I made was designing the structure of an instruction as 
 `verb + quantity + ingredient`. I also decided to not allow users to mix words relating to liquid ingredients and relating to solid ingredients (a program that tries to do this will fail to parse!). I think that this decision came from a place of wanting to force programs to be readable. While C may pride itself on allowing you to write obfuscating code, I want to force users to write readable programs in this DSL.
