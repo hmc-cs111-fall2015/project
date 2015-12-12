@@ -1,43 +1,19 @@
-**Introduction:** Describe your domain and motivate the need for a DSL
-(i.e., how could domain-experts use and benefit from a DSL?). What is the
-essence of your language, and why is it a good language for this domain?
+**Introduction:** 
+_A short description of the SimpleEMS project_
 
 This project serves website designers who seek to create an event management system, or reservations system. These systems in turn serve a group of people who share a set of spaces and need to use the spaces at various times. Examples include kitchens, lab spaces, and study room. This language would be good for any user to reserve a space or designate the space as 'occupied'. The language also seeks to descibe rooms, so that users can also define a set of rooms. I took on this project because it solves one of my frustrations at Harvey Mudd. When I try to organize events, I find it frustrating to check multiple dates and times or try to do multiple reservations. A DSL is an appropriate solution because the management system needs to be intuitive so that any user will be able to use the system without burdensome training. This langauge draws ideas from SQL, and JSON to provide easy to read descriptions of reservations and rooms while allowing users to query against a constraint solver. SimpleEMS is an appropriate language because it will act as an easy to read intermediate langauge for those who wish to write GUI's for reservation systems.
 
 
-**Language design details:** Give a high-level overview of your language's
-design. Be sure to answer the following questions:
-
--   How does a user write programs in your language (e.g., do they type
-    in commands, use a visual/graphical tool, speak, etc.)?
--   How does the syntax of your language help users write programs
-    more easily than the syntax of a general-purpose language?
--   What is the basic computation that your language performs (i.e.,
-    what is the computational model)?
--   What are the basic data structures in your DSL, if any? How does a the user
-    create and manipulate data?
--   What are the basic control structures in your DSL, if any? How does the user
-    specify or manipulate control flow?
--   What kind(s) of input does a program in your DSL require? What
-    kind(s) of output does a program produce?
--   Error handling: How can programs go wrong, and how does your
-    language communicate those errors to the user?
--   What tool support (e.g., error-checking, development environments)
-    does your project provide?
--   Are there any other DSLs for this domain? If so, what are they, and
-    how does your language compare to these other languages?
-
-## Language design
+**Language design details:**
+_A high level overview of the SimpleEMS design_
 
 Users write 'programs' in SimpleEMS by typing out descriptions of queries and rooms. As part of a larger system, the queries then get information from a local data model that draws information from an external data source such as a database. The requests ask for changes that are then interpreted to changes in the data model which then makes the appropriate changes to the external data source. The syntax allow for users to write code that is easy to understand and alter since we have scoped down the words and data types that users can use. Currently, the language supports ints, strings, and dates as field values. The language currently is set up to parse, and then return a mapping of fields to values. While this language was designed for schedule constraint solving, there was not enough time to implement one for this project (especially considering that I switched the language I was developing). So, the language will simply provide a mapping that can be plugged into a constraint solver library with some wrapping to provide calendar functionality. The basic data structure it the very map that users are manipulating when they write out their program. The DSL requires text inputs in the forms of the example programs shown later. DSL currently outputs a data structure, but the add-on will print out the mappings to show that it works. Because of the late switch, there is no error-checking or development environments. These types of features would be the next step in the process of developing this language. For 'functionality', many JSON libraries provide the same type of functionality because they are showing mappings. However, JSON can syntactically frustrating and this provides a simpler way of describing fields and values. For event management, I do not know of another langauge that provides an intermediate representation between the interface and the constraint-solver.
 
-**Example program(s):** Provide one or more examples that give the
-casual reader a good sense of your language. Include inputs and outputs.
-Think of this section as "Tutorial By Example". You might combine this section
-with the previous one, i.e., use examples to help describe your language.
+**Example program(s):** 
 
-'''
-// Describing rooms:
+Describing rooms:
+
+```
 room {
     building : 'Parsons';
     name : '2470';
@@ -46,9 +22,11 @@ room {
     occupancy : '14';
     type : 'classroom';
 }
+```
 
-// Describing queries:
+Describing a query:
 
+```
 reserve {
     start : '8:00AM';
     end : '9:00AM';
@@ -56,7 +34,7 @@ reserve {
     occupants : '11';
     type : 'classroom';
 }
-'''
+```
 
 **Language implementation:** Describe your implementation. In
 particular, answer the following questions:
@@ -79,10 +57,7 @@ particular, answer the following questions:
     semantics of your host language differ from the semantics of your
     DSL?
 
-## Language implementation
-
-The API is an internal language to Scala. I will implement the DSL as an internal DSL because I think an internal DSL is sufficient to make queries. This decision may change once the implmentation starts...
-I chose to implment this in Scala because that is the language I am most familiar with. Also, it makes it easier to tie the IR with the front-end if they are in the same language. So this is a choice for the implmentor more-so than the user. In addition, the syntactic sugars that Scala allows are also more flexible than the other GP languages that I am familiar with. 
+I chose to implment SimpleEMS in Scala because this is not a language I am very familiar with, and I wanted to learn how to use the langauge in depth. SimpleEMS is an external DSL. I chose to implement an external DSL because the built in syntax for Scala is not well suited for describing queries. In addition, I have never written an external DSL, and this was another way to explore how implementation would work.
 I have not made significant syntax decisions, most of my decisison have been made towards the API so far. 
 The system will consist of an IR, what's implmented so far, a front-end "console query style language" that will be interpreted to the IR data model and then a db back-end that will capture persistent data objects. (Since EMS should have persistent data)
 
