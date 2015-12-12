@@ -28,3 +28,34 @@ logic of the language allows for very complex date range combinations.
 Users that will be using calendarscript hopefully don't need to make
 easy calendars, so the ammount of overhead required to create a single
 calendar is well worth it for the intended audience. 
+
+# Language Design
+
+Users write the language as a simple code. The syntax is simple enough
+that users should be able to see code from the sample program and copy
+and paste it into their program, if they are not use to programming. 
+There are basically 2-3 different types in the language, which makes it
+rather easy to read and understand. By restricting the users to these
+2 or 3 types, it should restrict the way they think about creating the
+program. 
+
+The computational model of this language is just a static set of date
+definitions that are evaluated against each other. So the computation 
+being ran is a static scan of events and each set of dates that it is
+associated with. 
+
+The three basic data structures that my DSL contains are ```Calendars, Sections``` and ```Events```. Calendars can contain Sections and Events, Sections can contain Sections and Events. Events are just definitions though. The Language looks like this
+
+```
+Calendar := name Dates Filler
+
+Section := Dates Filler
+
+Filler := Section | Event | Section Filler | Event Filler
+
+Event := name Times EventComponents
+```
+
+The main way that users can manipulate these structures are through scoping 
+different events with different dates. That is the main purpose of the language.
+The DSL also contains user settings, but those are just defined as strings. 
