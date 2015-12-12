@@ -213,3 +213,35 @@ The host language used for calendarscript is Scala. I chose Scala because the im
 was very similar our implementation of external piconot, so it made sense for me to work with the same 
 host language. The DSL is an external DSL since users aren't expected to know any general purpose programming
 language. 
+
+# Evaluation
+
+Overall, I would say that calendarscript (or RCal. I know, I should have picked one name by now) is very DSL-y. It doesn't allow for
+general computation and doesn't even have line by line evaluation. It is just a new representation of data that can be compiled
+by a computer. 
+
+I am very pleased that I eventually got the language to be run from a website. I thought this was one of my most important goals 
+when I sought to achieve a larger user base for the DSL. I am also pleased with the copy and pastability of the language. This allows
+non programmers to still be able to mess with it. 
+
+The one thing that I can thing of to be improved at this point is a less JSON like syntax. If the syntax seems accesible, people 
+are more willing to give the DSL a shot. While some might think the implementation of Calendarscript is a bit verbose, I like that
+feature of it. It has allowed to to easily test and add new features to the language. 
+
+The main change I made after user testing wasn't really in the implementation of the DSL but more in the plans for how users would
+use the DSL. I talked to many high frequency calendar users and many said they would be interested in the DSL. Every single one said
+that they were unlikely to use it though if it wasn't as accessible to them as a website. Even a jar file was too much effort for 
+most of them. That is why I put such a heavy focus on getting the website working this week. 
+
+## Problems
+
+I didn't really experience many problems when implementing my DSL. There were some non avoidable problems with the structure of 
+ICalendar, but the fact that my language needed to be written proved that the case. Some features such as user settings took a bit
+more host language manipulation but nothing really ever got stuck in its development. I could say I got lucky in this regard. I had
+a strong vision for what I wanted, and was lucky that that vision wasn't too hard to achieve. 
+
+# Planned Additional Features
+
+- New, more leniant syntax
+- Better error messages and debugging for the website
+- Templating (at this point, I'm not even sure I know what this means)
