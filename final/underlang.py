@@ -45,6 +45,13 @@ class Storage(dict):
         return None
 
 class NodeMetaDict(dict):
+    '''
+    Keeps track of the order and names
+    of variables referenced, so you can do
+        class A(Node):
+            a
+            b
+    '''
     def __init__(self, *args, **kwargs):
         super().__init__(self, *args, **kwargs)
         self.list = []
@@ -56,7 +63,14 @@ class NodeMetaDict(dict):
             return super().__getitem__(key)
 
 class NodeMeta(type):
+    '''
+    Conceptually, the type of the Node object,
+    as opposed to Node instances (which are of type Node.)
+    '''
     def __new__(mcls, name, bases, nmdict, **kwargs):
+        '''
+        Setup the children based on the class definition.
+        '''
         children = nmdict.list
         namespace = dict(nmdict)
         namespace['_childNames'] = children
@@ -69,11 +83,10 @@ class NodeMeta(type):
         for c in childProxies:
             c._storage.cls = klass
         klass._remote_modifiers = defaultdict(set)
-        #klass.rewrite = RewriteProxy(klass)
         return klass
 
     def __getattribute__(cls, attr):
-        # print("Get attribute:", attr)
+        '''Create proxies as necessary when accessed.'''
         if attr.startswith('__') or attr in cls.__dict__:
             return super().__getattribute__(attr)
         if attr == 'rewrite':
@@ -85,6 +98,8 @@ class NodeMeta(type):
 
     @classmethod
     def __prepare__(metacls, names, bases, **kwargs):
+        '''Use the NodeMetaDict instead of the normal local namespace
+           when creating a Node class.'''
         return NodeMetaDict()
 
 def rewrite(node):
@@ -119,12 +134,22 @@ def iterNodes(nodes):
                         yield n
 
 class NodeSuper:
+    '''
+    This super class is mixed into Node,
+    so I don't have to worry about the NodeMeta
+    class doing weird things while I define
+    these couple normal functions.
+    '''
     def __init__(self, *args, **kwargs):
         self.parent = None
         # GLOBAL ROOT
         # if global_root is not None:
         #     global_root._children.append(self)
 
+        '''
+        Terrible implementation of a custom function
+        signature based on the children declared.
+        '''
         assert len(args) <= len(self._childNames)
         assert all(c in self._childNames for c in kwargs)
         for c, a in zip(self._childNames, args):
@@ -145,22 +170,19 @@ class NodeSuper:
         yield from iterNodes(getattr(self, c) for c in self._childNames)
 
     def _remote_modify(self, node, attr, value = None, ignore = None):
-        #import sys
-        #print("Top modify: ", value, file=sys.stderr)
+        '''
+        Apply remote changes corresponding to node.attr.
+        '''
         if ignore is None:
             ignore = set()
         if self in ignore:
-            #print("Ignoring", self, id(self))
             return value
-        # else:
-        #     print("Using", self, id(self))
         ignore.add(self)
         for modifier in self._remote_modifiers[attr]:
             val = modifier._remote_modify(node, self, value)
             value = val if val is not None else value
         for child in self.children:
             if isinstance(child, Node):
-                #print("Modifying:", value, file=sys.stderr)
                 value = child._remote_modify(node, attr, value, ignore)
         return value
 
@@ -171,6 +193,11 @@ class NodeSuper:
 class Node(NodeSuper, metaclass = NodeMeta): pass
 
 class Proxy:
+    '''
+    _storage is used to avoid polluting the namespace,
+    and also to help chain the attributes of
+    subclasses together.
+    '''
     def __init__(self, name, cls = None):
         self._storage = Storage(self)
         self._storage.name = name
@@ -188,7 +215,8 @@ class Proxy:
 class ChildProxy(Proxy):
     '''
     When a child is accessed, first check if
-    it wants to rewrite itself.
+    it wants to rewrite itself. That's
+    why this proxy exists.
     '''
     def __init__(self, name, cls = None):
         super().__init__(name, cls)
@@ -205,6 +233,9 @@ class ChildProxy(Proxy):
         self._storage.child[obj] = value
 
 class AttributeProxy(Proxy):
+    '''
+    The implementation of attributes.
+    '''
     def __init__(self, name, cls):
         super().__init__(name, cls)
         self._storage.value = {}
@@ -305,6 +336,11 @@ class AttributeProxy(Proxy):
         return self
 
 class RewriteProxy(Proxy):
+    '''
+    A special proxy for the rewrite attribute.
+    It's different because you can have multiple
+    separate rewrite functions.
+    '''
     def __init__(self, cls):
         super().__init__('rewrite', cls)
         self._storage.rewriters = []
@@ -329,6 +365,18 @@ class RewriteProxy(Proxy):
         return rewritten
 
 class SubAttributeProxy(Proxy):
+    '''
+    SubAttributes dispatch remote evaluation declarations
+    such as
+        @A.child.friend.mother.hat
+        def itsPink(a):
+            ...
+    A: Node
+    child: Attribute
+    friend: SubAttribute
+    mother: SubAttribute
+    hat: SubAttribute
+    '''
     def __init__(self, name, parent, cls):
         super().__init__(name, cls)
         self._storage.parent = parent
@@ -356,21 +404,7 @@ class SubAttributeProxy(Proxy):
         parent = self._get_parent(obj)
         return getattr(parent, self._storage.name)
 
-# class RootSuper:
-#     def __init__(self, *children):
-#         super().__init__()
-#         self._children = list(children)
-#         for child in children:
-#             if isinstance(child, Node):
-#                 child.root = self
-#         self.root = self
 
-#     @property
-#     def children(self):
-#         for c in self._children:
-#             yield rewrite(c)
-
-# class Root(RootSuper, Node): pass
 class Root(Node):
     _children
 
@@ -393,27 +427,3 @@ def root(node):
         return Root(node) #global_root
     else:
         return node.parent.root
-
-# Patterns and Unification
-
-
-# class Pattern: pass
-
-# class Metavar(Pattern):
-#     def __init__(self):
-#         self._rep = None
-#         self.depth = 0
-
-#     @property
-#     def rep(self):
-#         if self._rep is None:
-#             return self
-#         else:
-#             return self._rep.rep
-
-#     def __matmul__(self, other):
-#         other = Pattern(other)
-#         if self.depth < other.depth:
-
-
-
