@@ -207,4 +207,9 @@ END:VEVENT
 END:VCALENDAR
 ```
 
+# Language Implementation
 
+The host language used for calendarscript is Scala. I chose Scala because the implementation of my language
+was very similar our implementation of external piconot, so it made sense for me to work with the same 
+host language. The DSL is an external DSL since users aren't expected to know any general purpose programming
+language. 
