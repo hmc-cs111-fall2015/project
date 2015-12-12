@@ -2,11 +2,6 @@
 [CS111-projects]: https://github.com/hmc-cs111-fall2015/hmc-cs111-fall2015.github.io/wiki/Project-links
 
 
-# HELLO CRITIQUER
-
-You should look at `prototype/example.txt`.
-
-
 # DSL projects
 
 ## Overview
