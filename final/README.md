@@ -1,5 +1,5 @@
 [jastadd]: http://jastadd.org/
-[attrgrammr]: https://en.wikipedia.org/wiki/Attribute_grammar
+[attrgrammar]: https://en.wikipedia.org/wiki/Attribute_grammar
 
 # UnderLang
 
