@@ -1,13 +1,13 @@
 **Introduction:** 
 _A short description of the SimpleEMS project_
 
-This project serves website designers who seek to create an event management system, or reservations system. These systems in turn serve a group of people who share a set of spaces and need to use the spaces at various times. Examples include kitchens, lab spaces, and study room. This language would be good for any user to reserve a space or designate the space as 'occupied'. The language also seeks to descibe rooms, so that users can also define a set of rooms. I took on this project because it solves one of my frustrations at Harvey Mudd. When I try to organize events, I find it frustrating to check multiple dates and times or try to do multiple reservations. A DSL is an appropriate solution because the management system needs to be intuitive so that any user will be able to use the system without burdensome training. This langauge draws ideas from SQL, and JSON to provide easy to read descriptions of reservations and rooms while allowing users to query against a constraint solver. SimpleEMS is an appropriate language because it will act as an easy to read intermediate langauge for those who wish to write GUI's for reservation systems.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This project serves website designers who seek to create an event management system, or reservations system. These systems in turn serve a group of people who share a set of spaces and need to use the spaces at various times. Examples include kitchens, lab spaces, and study room. This language would be good for any user to reserve a space or designate the space as 'occupied'. The language also seeks to descibe rooms, so that users can also define a set of rooms. I took on this project because it solves one of my frustrations at Harvey Mudd. When I try to organize events, I find it frustrating to check multiple dates and times or try to do multiple reservations. A DSL is an appropriate solution because the management system needs to be intuitive so that any user will be able to use the system without burdensome training. This langauge draws ideas from SQL, and JSON to provide easy to read descriptions of reservations and rooms while allowing users to query against a constraint solver. SimpleEMS is an appropriate language because it will act as an easy to read intermediate langauge for those who wish to write GUI's for reservation systems.
 
 
 **Language design details:**
 _A high level overview of the SimpleEMS design_
 
-Users write 'programs' in SimpleEMS by typing out descriptions of queries and rooms. As part of a larger system, the queries then get information from a local data model that draws information from an external data source such as a database. The requests ask for changes that are then interpreted to changes in the data model which then makes the appropriate changes to the external data source. The syntax allow for users to write code that is easy to understand and alter since we have scoped down the words and data types that users can use. Currently, the language supports ints, strings, and dates as field values. The language currently is set up to parse, and then return a mapping of fields to values. While this language was designed for schedule constraint solving, there was not enough time to implement one for this project (especially considering that I switched the language I was developing). So, the language will simply provide a mapping that can be plugged into a constraint solver library with some wrapping to provide calendar functionality. The basic data structure it the very map that users are manipulating when they write out their program. The DSL requires text inputs in the forms of the example programs shown later. DSL currently outputs a data structure, but the add-on will print out the mappings to show that it works. Because of the late switch, there is no error-checking or development environments. These types of features would be the next step in the process of developing this language. For 'functionality', many JSON libraries provide the same type of functionality because they are showing mappings. However, JSON can syntactically frustrating and this provides a simpler way of describing fields and values. For event management, I do not know of another langauge that provides an intermediate representation between the interface and the constraint-solver.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Users write 'programs' in SimpleEMS by typing out descriptions of queries and rooms. As part of a larger system, the queries then get information from a local data model that draws information from an external data source such as a database. The requests ask for changes that are then interpreted to changes in the data model which then makes the appropriate changes to the external data source. The syntax allow for users to write code that is easy to understand and alter since we have scoped down the words and data types that users can use. Currently, the language supports ints, strings, and dates as field values. The language currently is set up to parse, and then return a mapping of fields to values. While this language was designed for schedule constraint solving, there was not enough time to implement one for this project (especially considering that I switched the language I was developing). So, the language will simply provide a mapping that can be plugged into a constraint solver library with some wrapping to provide calendar functionality. The basic data structure it the very map that users are manipulating when they write out their program. The DSL requires text inputs in the forms of the example programs shown later. DSL currently outputs a data structure, but the add-on will print out the mappings to show that it works. Because of the late switch, there is no error-checking or development environments. These types of features would be the next step in the process of developing this language. For 'functionality', many JSON libraries provide the same type of functionality because they are showing mappings. However, JSON can syntactically frustrating and this provides a simpler way of describing fields and values. For event management, I do not know of another langauge that provides an intermediate representation between the interface and the constraint-solver.
 
 **Example program(s):** 
 
@@ -36,30 +36,10 @@ reserve {
 }
 ```
 
-**Language implementation:** Describe your implementation. In
-particular, answer the following questions:
+**Language implementation:** 
+_A description of the language's implementation_
 
--   What host language did you use (i.e., in what language did you
-    implement your DSL)? Why did you choose this host language (i.e.,
-    why is it well-suited for your language design)?
--   Is yours an external or an internal DSL (or some combination thereof)? Why
-    is that the right design?
--   Provide an overview of the architecture of your language: front, middle, and
-    back-end, along with any technologies used to implement these components.
--   "Parsing": How does your DSL take a user program and turn it into
-    something that can be executed? How do the data and control
-    structures of your DSL connect to the underlying semantic model?
--   Intermediate representation: What data structure(s) in the host language do
-    you use to represent a program in your DSL?
--   Execution: How did you implement the computational model? Describe
-    the structure of your code and any special programming techniques
-    you used to implement your language. In particular, how do the
-    semantics of your host language differ from the semantics of your
-    DSL?
-
-I chose to implment SimpleEMS in Scala because this is not a language I am very familiar with, and I wanted to learn how to use the langauge in depth. SimpleEMS is an external DSL. I chose to implement an external DSL because the built in syntax for Scala is not well suited for describing queries. In addition, I have never written an external DSL, and this was another way to explore how implementation would work.
-I have not made significant syntax decisions, most of my decisison have been made towards the API so far. 
-The system will consist of an IR, what's implmented so far, a front-end "console query style language" that will be interpreted to the IR data model and then a db back-end that will capture persistent data objects. (Since EMS should have persistent data)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I chose to implement SimpleEMS in Scala because this is not a language I am very familiar with, and I wanted to learn how to use the langauge in depth. SimpleEMS is an external DSL. I chose to implement an external DSL because the built in syntax for Scala is not well suited for describing queries. In addition, I have never written an external DSL, and this was another way to explore how implementation would work. The parsing is done by the PackratParser which translates the program to an abstract syntax tree. The AST is the intermediate representation. The execution is handled recursively, where the map is built by traversing the tree and 'filling in' nodes from the bottom up. Ideally, the execution would also involve some constraint solving on schedules but again I did not quite get to it and I did not prioritize it since it was more of an implementation issue than a language issue.
 
 **Evaluation:** Provide some analysis of the work you did. In
 particular:
