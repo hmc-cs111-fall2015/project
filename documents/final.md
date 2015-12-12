@@ -2,52 +2,15 @@
 (i.e., how could domain-experts use and benefit from a DSL?). What is the
 essence of your language, and why is it a good language for this domain?
 
-_Note: Your project description can serve as a good first draft 
-of the introduction._
+This project serves website designers who seek to create an event management system, or reservations system. These systems in turn serve a group of people who share a set of spaces and need to use the spaces at various times. Examples include kitchens, lab spaces, and study room. This language would be good for any user to reserve a space or designate the space as 'occupied'. The language also seeks to descibe rooms, so that users can also define a set of rooms. I took on this project because it solves one of my frustrations at Harvey Mudd. When I try to organize events, I find it frustrating to check multiple dates and times or try to do multiple reservations. A DSL is an appropriate solution because the management system needs to be intuitive so that any user will be able to use the system without burdensome training. This langauge draws ideas from SQL, and JSON to provide easy to read descriptions of reservations and rooms while allowing users to query against a constraint solver. SimpleEMS is an appropriate language because it will act as an easy to read intermediate langauge for those who wish to write GUI's for reservation systems.
 
-# Project description and plan
-
-This project serves a group of people who share a set of spaces and need to use the spaces at various times. Examples include kitchens, lab spaces, and study room. This language would be good for any user to reserve a space or designate the space as 'occupied'. The project involves three main components, an intermediate representation, a front-end and a back-end. The plan is to develop in that order as well. The intermediate representation will take the front-end language and convert it into object relations for the back-end. The front-end will be the outer language for users to interact with space and event management. The back-end will hold the persistent objects and information about rooms.
-
-## Motivation
-
-This project is interesting to me because it solves one of my frustrations at Harvey Mudd. When I try to organize events, I find it frustrating to check multiple dates and times or try to do multiple reservations. A DSL is an appropriate solution because the management system needs to be intuitive so that any user will be able to use the system without burdensome training.
-
-## Language domain
-
-The domain of this project is the event management domain.
-
-## Language design
-
-The design of this language is a text-based query system.
-
-A program in this language is a clause or set of clauses that query or change the data model.
-
-When a program runs, the program is interpreted into the data model and which then translates the database info into the desired information. Or translates changes in the data model to database changes.
-
-The program takes string inputs, such as room names and times, and produce string outputs.
-
-Syntax errors are possible, which will need to be caught in the parser. Compile-time errors will likely not be an issue, but run-time issues may occur since there may be discrepancies between the data model and the database. These errors should be handled with comparisons between the data model and the assumed data model.
-I will need to design the language to catch foreseeable errors and also prevent users from changing data models in an inconsistent matter.
-
-## Example computations
-
-When asked for when a room is open, the program should check the schedule for that room and then return the schedule.
-
-When asked for what rooms are open at some time, the program should check the schedule for that time period and then return the rooms that are open.
-
-When asked for the schedule, the program should show a list of rooms and their availabilities. 
-
-When a room is requested, the program should check the schedule for availability and then return whether the reservation was successful or not.
-
-Each of these requests could be combined to automate looking for an open room.
 
 **Language design details:** Give a high-level overview of your language's
 design. Be sure to answer the following questions:
 
 -   How does a user write programs in your language (e.g., do they type
     in commands, use a visual/graphical tool, speak, etc.)?
--   How does the syntax of your language help users write programmers
+-   How does the syntax of your language help users write programs
     more easily than the syntax of a general-purpose language?
 -   What is the basic computation that your language performs (i.e.,
     what is the computational model)?
@@ -66,7 +29,7 @@ design. Be sure to answer the following questions:
 
 ## Language design
 
-Users write programs in SimpleEMS by typing out queries and requests. The queries then get information from a local data model that draws information from an external data source such as a databse. The requests ask for changes that are then interpreted to changes in the data model which then makes the appropriate changes to the external data source. This DSL aims to have neither data structures nor control structures. There are hints of OOP in the sense that users will be manipulating 'themselves' as occupants in 'room' objects in the intermediate representaton. Ideally, this langauge will also show hints of control flow by enabling users to request a room for a number of dates! The DSL only requires text inputs but the text inputs have to be in a recognizeable format for the parser. (A syntax!) The output will also be text-based however we can do some ASCII formatting to make results easier to read. Programs can go wrong if the intermediate representation/data model cannot reconiliate with the external data source. This could happen due to one-off errors and edge cases that were missed in testing (hopefully not) or due to corruption of data in tranfer (though unlikely). The program should be able to make a text output detailing at least the general idea of where the error occured ("your query was wrong syntactically right here <>" or "something went wrong with the database... try again in a few seconds or post a bug!"). I left a week of time for error-handling so I hope this project will be able to handle most errors. The environment in which they query in will be a Scala console environment. Other DSLs are generally graphical, e.g. the HMC EMS system. However, the system is clunky and hard to use. For users that prefer working from the console, this application fills that niche. Also, one language goal is that the API is flexible enough to allow someone to write a graphical interface if they so desired. 
+Users write 'programs' in SimpleEMS by typing out descriptions of queries and rooms. As part of a larger system, the queries then get information from a local data model that draws information from an external data source such as a database. The requests ask for changes that are then interpreted to changes in the data model which then makes the appropriate changes to the external data source. The syntax allow for users to write code that is easy to understand and alter since we have scoped down the words and data types that users can use. Currently, the language supports ints, strings, and dates as field values. The language currently is set up to parse, and then return a mapping of fields to values. While this language was designed for schedule constraint solving, there was not enough time to implement one for this project (especially considering that I switched the language I was developing). So, the language will simply provide a mapping that can be plugged into a constraint solver library with some wrapping to provide calendar functionality. The basic data structure it the very map that users are manipulating when they write out their program. The DSL requires text inputs in the forms of the example programs shown later. DSL currently outputs a data structure, but the add-on will print out the mappings to show that it works. Because of the late switch, there is no error-checking or development environments. These types of features would be the next step in the process of developing this language. For 'functionality', many JSON libraries provide the same type of functionality because they are showing mappings. However, JSON can syntactically frustrating and this provides a simpler way of describing fields and values. For event management, I do not know of another langauge that provides an intermediate representation between the interface and the constraint-solver.
 
 **Example program(s):** Provide one or more examples that give the
 casual reader a good sense of your language. Include inputs and outputs.
