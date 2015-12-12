@@ -146,7 +146,15 @@ Given that I was going to use Scala, choosing to make an external DSL instead of
 2. Implementing piconot as an internal DSL was **way** more painful that externalizing it, and I anticipated the features of Scala hindering more than helping for CaffeieneScript as well.
 3. CaffeineScript has a very different feel from Scala. The goal was to make a program sound like a recipe. This is not what programs in Scala read like.
 
-As far as syntax goes, the first significant decision I made was designing the structure of an instruction as 
-`verb + quantity + ingredient`. I also decided to not allow users to mix words relating to liquid ingredients and relating to solid ingredients (a program that tries to do this will fail to parse!). I think that this decision came from a place of wanting to force programs to be readable. While C may pride itself on allowing you to write obfuscating code, I want to force users to write readable programs in this DSL.
+The architecture of the language is similar to that of my group's Piconot external. There are 4 major components to the language's architecture: Parser, AST, Transformer, and Backend. 
 
-The only major architecture decision I've made so far (that I don't plan to change) is the decision to store a program as a list of Instructions to be executed. I feel like executing the instructions in sequence is true to the spirit of a recipe, and as I've mentioned before instructions in making a coffee drink don't commute in general. As far as factoring my source code goes, I mostly copied the structure that Dan and I used for our piconot-external implementation, which has served me well so far. The only difference so far is that the semantics package will contain multiple different backends, all with the same API (a void function called execute), as opposed to the one in piconot-external.
+The parser turns a user's program into an AST (an intermediate representation of the program). It's implemented using packrat parsing and regex parsing. This has caused some issues where certain keywords (like "of") get absorbed into the regex specifying another part of the program. This forced me to make some compromises on the naturalness of the language's syntax - for instance, I replaced the keyword "of" with the special character "@", which doesn't get absorbed by the regexparsers used for the language. 
+
+The AST of a program has 2 components: the header which is a list of Recipes, and the body which is a list of instructions. The transformer transforms the AST in its form post-parser into an list of regular instructions that's ready to execute. In particlar, the backend can only handle a list of instructions to add various ingredients - it doesn't know how to deal with make, swap, or remove instructions. The transformer's job is to transform the body of the program into a list of regular instructions by resolving all instructions of the other three types. As we can see, the most prominent data structure in the IR is a list. I also use a HashMap to create a lookup table for the Recipes in the program header. This table can then be queried when a make instruction is seen in the body of the program.
+
+The backend that I have right now just prints the steps that it's taking to execute the program body, but the ideal backend would actually make the drink specified by the program body.
+
+# Evaluation
+
+I think this language is fairly DSL-ey. It has a very restricted syntax that's different from that of most general-purpose programming languages, and not many keywords. It also has a very restricted application domain - it really doesn't have much capability to solve problems outside this domain. 
+
