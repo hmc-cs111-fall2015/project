@@ -214,6 +214,40 @@ was very similar our implementation of external piconot, so it made sense for me
 host language. The DSL is an external DSL since users aren't expected to know any general purpose programming
 language. 
 
+## User Interaction (How one uses the program)
+
+There are 3 different ways: 
+
+#### From Website
+
+The easiest way to run a calendarscript is to input it into [this web app](http://www.aputman.com/rcal).
+After running it there, it will just save an ical file on your computer. 
+
+#### From Jar
+
+The 2nd easiest way to run this program is to [download the jar file](https://github.com/aputman/calendarscript/blob/master/RCal.jar?raw=true).
+
+This requires Java, but after downloading, all you need to do is run
+
+```java -jar RCal.java arg1 arg2```
+
+with the 2 command line arguments being:
+
+1. the file (including location) of the calendarscript file (```path\to\file.cal```)
+2. the folder location that your resulting ical file will be saved (```path\to\folder\```)
+
+#### From the source code
+
+To run this program from the source, scala and sbt are currently required. Here are the steps 
+
+1. Download and install scala and sbt. 
+2. run ```sbt``` in the parent foler of this project.
+3. run ```run arg1 arg2``` with the 2 command line arguments being:
+  1. the file (including location) of the calendarscript file (```path\to\file.cal```)
+  2. the folder location that your resulting ical file will be saved (```path\to\folder\```)
+
+The name of the resulting file will be the name that you gave your calendar. 
+
 # Evaluation
 
 Overall, I would say that calendarscript (or RCal. I know, I should have picked one name by now) is very DSL-y. It doesn't allow for
